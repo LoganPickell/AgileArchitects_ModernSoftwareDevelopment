@@ -1,8 +1,8 @@
-# <center>📚CozyCorners📚</center>
+# <p align="center">📚CozyCorners📚</p>
 
 ---
 
-## Description
+## <p align="center"> Description </p>
 "Your Personal Book Collection, Simplified" 
 
 Stay on top of your reading progress with our intuitive app.
@@ -10,7 +10,7 @@ Add books to your collection, categorize them by reading status, and view essent
 Easily search for specific books, and update your collection to reflect new reads or books you no longer own.
 ---
 
-## Setup Instructions
+## <p align="center"> Setup Instructions</p>
 
 1. Clone Repository from GitHub
 ```
@@ -40,8 +40,8 @@ python app.py
 
 ---
 
-## How to Use the App
+## <p align="center"> How to Use the App </p>
 ___
 
-## Screenshots
+## <p align="center"> Screenshots </p>
 ___
