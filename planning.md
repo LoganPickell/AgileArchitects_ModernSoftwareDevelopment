@@ -1,41 +1,32 @@
 # Planning Document for Agile Architects Book Tracker App
 
 ```mermaid
----
-title: Book App ER Diagram
----
-erdiagram
+erDiagram
 
-Entity "User" {
-    +user_id: UUID
-    ---
-    username: string
-    email: string
-    password: string
+USER{
+    user_id int PK
+    username string
 }
 
-Entity "Book" {
-    +book_id: UUID
-    ---
-    title: string
-    author: string
-    genre: string
-    publication_year: int
+BOOK {
+    book_id int PK
+    title string
+    author string
+    genre string
+    
 }
 
 
-Entity "UserBook" {
-    +id: UUID
-    ---
-    status: string
-    start_date: date
-    end_date: date
+BOOKSHELF {
+    bookId int  PK
+    user_id int PK
+    hasRead bool
+    inCollection bool
 }
 
-User ||--o{ UserBook : "Tracks"
-Book ||--o{ UserBook : "Tracks"
 
-
+BOOKSHELF ||--|| USER : has
+BOOKSHELF ||--|{ BOOK : has
 
 
 ```
