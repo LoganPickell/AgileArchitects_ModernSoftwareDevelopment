@@ -49,5 +49,9 @@ def dashboard():
     username = request.args.get('username')
     return render_template('dashboard.html', username=username)
 
+@app.route('/search_videos')
+def search_videos():
+    return render_template('search_videos.html') 
+
 if __name__ == '__main__':
     app.run(debug=True)
