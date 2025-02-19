@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/create_account.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
     <h1>Login</h1>
     <form method="POST">
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 
         <button type="submit">Login</button>
     </form>
-    <a href="{{ url_for('home') }}">&#8592;</a>
-</body>
-</html>
+    <a href="{{ url_for('home') }}" class="back-arrow">&#8592;</a>
+
+{% endblock %}

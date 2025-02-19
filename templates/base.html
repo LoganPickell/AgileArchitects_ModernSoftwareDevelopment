@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Page Title{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/styles.css') }}">
+</head>
+<body>
+<header>
+    {% if 'dashboard' in request.path %}
+        <div class="user-info">
+            <span>Welcome, {{ username }}</span>
+            <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
+        </div>
+    {% endif %}
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    {% block content %}
+
+    {% endblock %}
+</main>
+
+<footer>
+    <p>&copy; 2025 CozyCorner. All rights reserved.</p>
+</footer>
+</body>
+</html>
