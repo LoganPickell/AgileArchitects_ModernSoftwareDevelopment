@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookshelf Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/dashboard.css') }}">
+</head>
+<body>
+<div class="header">
+    <div class="user-info"><span>Welcome, {{ username }}</span>
+        <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
+    </div>
+</div>
+<div class="bookshelf">
+    <div class="shelf">
+        <div class="book">Book 1</div>
+        <div class="book">Book 2</div>
+        <div class="book">Book 3</div>
+    </div>
+    <div class="shelf">
+        <div class="book">Book 4</div>
+        <div class="book">Book 5</div>
+        <div class="book">Book 6</div>
+    </div>
+    <div class="shelf">
+        <div class="book">Book 7</div>
+        <div class="book">Book 8</div>
+        <div class="book">Book 9</div>
+    </div>
+</div>
+</body>
+</html>

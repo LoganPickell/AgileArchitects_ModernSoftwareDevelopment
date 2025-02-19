@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/home.css') }}">
+
 </head>
 <body>
-    <h1>Home Page(Logo/App Name here)!</h1>
+    <h1>CozyCorner!</h1>
     <p>Track your personal book and movie collection!</p>
+
+    <button onclick="window.location.href='{{ url_for('login') }}'">Login</button>
+    <button onclick="window.location.href='{{ url_for('create_account') }}'">Create Account</button>
+
 
 </body>
 </html>
