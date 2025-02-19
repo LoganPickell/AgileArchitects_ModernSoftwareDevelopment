@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/create_account.css') }}">
-</head>
-<body>
-<h1>Create Account</h1>
-<form method="POST">
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-{% endif %}
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <button type="submit">Create Account</button>
-</form>
-<a href="{{ url_for('home') }}">&#8592;</a>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+    <h1>Create Account</h1>
+    <form method="POST">
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <button type="submit">Create Account</button>
+    </form>
+    <a href="{{ url_for('home') }}" class="back-arrow">&#8592;</a>
+
+{% endblock %}
