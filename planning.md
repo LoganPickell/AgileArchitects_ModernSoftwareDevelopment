@@ -13,6 +13,7 @@ BOOK {
     title string
     author string
     genre string
+    image blob
     
 }
 
