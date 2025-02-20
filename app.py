@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import sqlite3
 import requests
+import secrets
 
 app = Flask(__name__)
-
-
+app.config['SECRET_KEY'] = secrets.token_hex(16)
 @app.route('/', methods=['GET', 'POST'])
 def home():
     error = None
@@ -17,7 +17,9 @@ def home():
             user = cursor.fetchone()
 
             if user:
-                return redirect(url_for('dashboard', username=username))
+                session['user_id'] = user[0]
+                session['username'] = user[1]
+                return redirect(url_for('dashboard'))
             else:
                 error = "Invalid username. Please try again."
 
@@ -41,11 +43,103 @@ def create_account():
 
     return render_template('create_account.html', error=error)
 
-
 @app.route('/dashboard')
 def dashboard():
-    username = request.args.get('username')
-    return render_template('dashboard.html', username=username)
+    user_id = session.get('user_id')
+    username = session.get('username')
+    print(user_id, username)
+
+    if user_id is None:
+        return redirect(url_for('home'))
+
+    with sqlite3.connect("db.sqlite") as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT b.title, b.author, b.genre, b.image, b.book_id FROM BOOK b JOIN BOOKSHELF bs ON b.book_id = bs.book_id WHERE bs.user_id = ?",
+            (user_id,))
+        books = cursor.fetchall()
+
+    print(books)
+    shelf_size = 3
+    shelves = [books[i:i + shelf_size] for i in range(0, len(books), shelf_size)]
+
+    return render_template('dashboard.html', username=username, shelves=shelves, shelf_size=shelf_size)
+
+@app.route('/add_book', methods=['GET', 'POST'])
+def add_book():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        author = request.form.get('author')
+        genre = request.form.get('genre')
+        image_url = request.form.get('image_url') or '/static/DefaultBookCover.jpg'
+        user_id = session.get('user_id')
+        username= session.get('username')
+
+        has_read = 1 if request.form.get('has_read') else 0
+        in_collection = 1 if request.form.get('in_collection') else 0
+
+        with sqlite3.connect("db.sqlite") as conn:
+            cursor = conn.cursor()
+
+            cursor.execute("INSERT INTO BOOK (title, author, genre, image) VALUES (?, ?, ?, ?)",
+                           (title, author, genre, image_url))
+            conn.commit()
+
+            book_id = cursor.lastrowid
+
+            cursor.execute("INSERT INTO BOOKSHELF (book_id, user_id, hasRead, inCollection) VALUES (?, ?, ?, ?)",
+                           (book_id, user_id, has_read, in_collection))
+            conn.commit()
+
+        return redirect(url_for('dashboard'))
+
+    return render_template('add_book.html')
+
+
+@app.route('/edit_book/<int:book_id>', methods=['GET', 'POST'])
+def edit_book(book_id):
+    if not book_id:
+        return redirect(url_for('user_bookshelf'))
+
+    with sqlite3.connect("db.sqlite") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT title, author, genre, image FROM BOOK WHERE book_id = ?", (book_id,))
+        book = cursor.fetchone()
+
+    if not book:
+        return redirect(url_for('user_bookshelf'))
+
+    if request.method == 'POST':
+        title = request.form.get('title')
+        author = request.form.get('author')
+        genre = request.form.get('genre')
+        image = request.form.get('image')
+
+        with sqlite3.connect("db.sqlite") as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "UPDATE BOOK SET title = ?, author = ?, genre = ?, image = ? WHERE book_id = ?",
+                (title, author, genre, image, book_id)
+            )
+            conn.commit()
+
+        return redirect(url_for('dashboard'))
+
+
+    return render_template('edit_book.html', book=book)
+
+@app.route('/delete_book/<int:book_id>', methods=['POST'])
+def delete_book(book_id):
+    if not book_id:
+        return redirect(url_for('dashboard'))
+
+    with sqlite3.connect("db.sqlite") as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM BOOKSHELF WHERE book_id = ?", (book_id,))
+        cursor.execute("DELETE FROM BOOK WHERE book_id = ?", (book_id,))
+        conn.commit()
+
+    return redirect(url_for('dashboard'))
 
 @app.route('/search_books', methods=['GET', 'POST'])
 def search_books():
@@ -86,6 +180,13 @@ def search_books():
 @app.route('/userBookShelf')
 def userBookShelf():
     return render_template('userBookShelf.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('username', None)
+    return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

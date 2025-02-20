@@ -1,23 +1,27 @@
 {% extends 'base.html' %}
 
 {% block title %}Dashboard{% endblock %}
-{
+
 {% block content %}
+<a href="{{ url_for('add_book') }}">Add New Book</a>
     <div class="bookshelf">
-        <div class="shelf">
-            <div class="book">Book 1</div>
-            <div class="book">Book 2</div>
-            <div class="book">Book 3</div>
-        </div>
-        <div class="shelf">
-            <div class="book">Book 4</div>
-            <div class="book">Book 5</div>
-            <div class="book">Book 6</div>
-        </div>
-        <div class="shelf">
-            <div class="book">Book 7</div>
-            <div class="book">Book 8</div>
-            <div class="book">Book 9</div>
-        </div>
+        {% for shelf in shelves %}
+            <div class="shelf">
+                {% for book in shelf %}
+                     <div class="book">
+                         <div class="edit-button-container">
+                             <a href="{{ url_for('edit_book', book_id=book[4]) }}" class="edit-button">✏️</a>
+                            <form action="{{ url_for('delete_book', book_id=book[4]) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="delete-button">🗑️</button>
+                            </form>
+                         </div>
+                        <img src="{{ book[3] }}" alt="{{ book[0] }} cover">
+                        <h3>{{ book[0] }}</h3>
+                        <p>{{ book[1] }}</p>
+                        <p>{{ book[2] }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

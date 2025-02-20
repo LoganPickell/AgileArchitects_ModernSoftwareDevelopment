@@ -11,9 +11,9 @@
     {% if 'dashboard' in request.path %}
         <div class="user-info">
             <span>Welcome, {{ username }}</span>
-            <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
-        </div>
-    {% endif %}
+            <a class="logout-button" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+{% endif %}
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
