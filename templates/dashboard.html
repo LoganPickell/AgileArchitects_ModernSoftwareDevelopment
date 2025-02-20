@@ -8,17 +8,18 @@
         {% for shelf in shelves %}
             <div class="shelf">
                 {% for book in shelf %}
-                     <div class="book">
-                         <div class="edit-button-container">
-                             <a href="{{ url_for('edit_book', book_id=book[4]) }}" class="action-button edit-button">✏️</a>
-                             <a href="#" class="action-button delete-button" onclick="deleteBook({{ book[4] }})">🗑️</a>
-                            </form>
+                     <div class="book-card">
+                     <img src="{{ book[3] }}" alt="Book Cover" class="book-cover">
+                         <div class="action-buttons">
+                             <a href="{{ url_for('edit_book', book_id=book[4]) }}" class="edit-button">✏️</a>
+                             <a href="#" class="delete-button" onclick="deleteBook({{ book[4] }})">🗑️</a>
                          </div>
-                        <img src="{{ book[3] }}" alt="{{ book[0] }} cover">
-                        <h3>{{ book[0] }}</h3>
-                        <p>{{ book[1] }}</p>
-                        <p>{{ book[2] }}</p>
-                    </div>
+                         <div class="book-info">
+                             <h3>Title: {{ book[0] }}</h3>
+                             <p>Author: {{ book[1] }}</p>
+                             <p>Genre: {{ book[2] }}</p>
+                         </div>
+                     </div>
                 {% endfor %}
             </div>
         {% endfor %}
@@ -36,3 +37,5 @@
     }
 </script>
 {% endblock %}
+
+

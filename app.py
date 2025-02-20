@@ -71,7 +71,7 @@ def add_book():
         title = request.form.get('title')
         author = request.form.get('author')
         genre = request.form.get('genre')
-        image_url = request.form.get('image_url') or '/static/DefaultBookCover.jpg'
+        image = request.form.get('image') or '/static/assets/image/DefaultBookCover.jpg'
         user_id = session.get('user_id')
         username= session.get('username')
 
@@ -82,7 +82,7 @@ def add_book():
             cursor = conn.cursor()
 
             cursor.execute("INSERT INTO BOOK (title, author, genre, image) VALUES (?, ?, ?, ?)",
-                           (title, author, genre, image_url))
+                           (title, author, genre, image))
             conn.commit()
 
             book_id = cursor.lastrowid
@@ -113,7 +113,7 @@ def edit_book(book_id):
         title = request.form.get('title')
         author = request.form.get('author')
         genre = request.form.get('genre')
-        image = request.form.get('image')
+        image = request.form.get('image') or '/static/assets/image/DefaultBookCover.jpg'
 
         with sqlite3.connect("db.sqlite") as conn:
             cursor = conn.cursor()
