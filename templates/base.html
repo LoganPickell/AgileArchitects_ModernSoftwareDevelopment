@@ -8,19 +8,10 @@
 </head>
 <body>
 <header>
-    {% if 'dashboard' in request.path %}
-        <div class="user-info">
-            <span>Welcome, {{ username }}</span>
-            <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
-        </div>
-    {% endif %}
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li>About</li>
-            <li>Contact</li>
-        </ul>
-    </nav>
+<a href="/" class="banner-link">
+    <div class="banner"></div>
+</a>
+
 </header>
 
 <main>
