@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Search Books{% endblock %}
+
+{% block content %}
+    <h1>Search Books</h1>
+
+
+    <form method="post">
+        <input type="text" name="query" placeholder="Search for a book" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if books %}
+        <h2>Results:</h2>
+        <ul>
+            {% for book in books %}
+                <li>
+                    <strong>{{ book.volumeInfo.title }}</strong>
+                    {% if book.volumeInfo.authors %}
+                        by {{ book.volumeInfo.authors | join(', ') }}
+                    {% endif %}
+                    <br>
+                    {% if book.volumeInfo.imageLinks.thumbnail %}
+                        <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="Book cover">
+                    {% endif %}
+                    <br>
+                    <a href="{{ book.volumeInfo.infoLink }}" target="_blank">More Info</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
