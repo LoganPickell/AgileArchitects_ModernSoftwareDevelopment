@@ -7,6 +7,10 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background-image: url('../image/books.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Header */
@@ -74,7 +78,6 @@ header nav ul li a:hover {
 }
 
 
-
 /* Main content area */
 main {
     flex: 1;
@@ -85,7 +88,7 @@ main {
 
 /* Create account form */
 form {
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.6);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -96,7 +99,22 @@ form {
     margin: 0 auto;
 }
 
+.title-box {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 375px;
+    margin: 20px auto;
+}
+
 /* Headings */
+
+.title-box h1, .title-box p {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
 h1 {
     font-size: 36px;
     color: #333;
@@ -209,7 +227,7 @@ footer {
     background-color: #333;
     color: white;
     text-align: center;
-    padding: 45px 0;
+    padding: 20px 0;
     font-size: 14px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     margin-top: auto;

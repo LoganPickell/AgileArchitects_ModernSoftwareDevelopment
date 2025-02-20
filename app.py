@@ -4,9 +4,24 @@ import requests
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    error = None
+    if request.method == 'POST':
+        username = request.form['username']
+
+        with sqlite3.connect("db.sqlite") as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT user_id, username FROM users WHERE username = ?", (username,))
+            user = cursor.fetchone()
+
+            if user:
+                return redirect(url_for('dashboard', username=username))
+            else:
+                error = "Invalid username. Please try again."
+
+    return render_template('home.html', error=error)
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
@@ -25,24 +40,6 @@ def create_account():
                     error = "Username already exists. Try another one."
 
     return render_template('create_account.html', error=error)
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    if request.method == 'POST':
-        username = request.form['username']
-
-        with sqlite3.connect("db.sqlite") as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT user_id, username FROM users WHERE username = ?", (username,))
-            user = cursor.fetchone()
-
-            if user:
-                return redirect(url_for('dashboard', username=username))
-            else:
-                error = "Invalid username. Please try again."
-
-    return render_template('login.html', error=error)
 
 
 @app.route('/dashboard')
