@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Edit Book</h2>
+    <form method="POST">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" value="{{ book.title }}" required>
+        </div>
+        <div>
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" value="{{ book.author }}" required>
+        </div>
+        <div>
+            <label for="genre">Genre</label>
+            <input type="text" id="genre" name="genre" value="{{ book.genre }}" required>
+        </div>
+        <div>
+            <label for="image_url">Image URL</label>
+            <input type="text" id="image_url" name="image_url" value="{{ book.image }}">
+        </div>
+        <div>
+            <label for="has_read">Have you read this book?</label>
+            <input type="checkbox" id="has_read" name="has_read">
+        </div>
+        <div>
+            <label for="in_collection">Do you own this book?</label>
+            <input type="checkbox" id="in_collection" name="in_collection">
+        </div>
+        <button type="submit">Update Book</button>
+    </form>
+{% endblock %}
