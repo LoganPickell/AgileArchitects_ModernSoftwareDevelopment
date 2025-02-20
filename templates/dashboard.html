@@ -1,13 +1,31 @@
 {% extends 'base.html' %}
 
 {% block title %}Dashboard{% endblock %}
+
 {
 {% block content %}
+<header>
+{% if 'dashboard' in request.path %}
+        <div class="user-info">
+            <span>Welcome, {{ username }}</span>
+            <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
+        </div>
+    {% endif %}
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li>Library</li>
+            <li>My BookShelf</li>
+        </ul>
+    </nav>
+</header>
+
     <div class="bookshelf">
         <div class="shelf">
             <div class="book">Book 1</div>
             <div class="book">Book 2</div>
             <div class="book">Book 3</div>
+
         </div>
         <div class="shelf">
             <div class="book">Book 4</div>
