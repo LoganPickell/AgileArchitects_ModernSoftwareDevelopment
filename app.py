@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
+import requests
 
 app = Flask(__name__)
 
@@ -49,9 +50,24 @@ def dashboard():
     username = request.args.get('username')
     return render_template('dashboard.html', username=username)
 
-@app.route('/search_books')
-def search_videos():
-    return render_template('search_books.html')
+
+@app.route('/search_books', methods=['GET', 'POST'])
+def search_books():
+    books = []
+    query = None
+    if request.method == 'POST':
+        query = request.form.get('query', '').strip()
+        if query:
+            try:
+                response = requests.get(f'https://www.googleapis.com/books/v1/volumes?q={query}')
+                if response.status_code == 200:
+                    data = response.json()
+                    books = data.get('items', [])
+            except requests.RequestException:
+                books = []
+
+    return render_template('search_books.html', books=books, query=query)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
