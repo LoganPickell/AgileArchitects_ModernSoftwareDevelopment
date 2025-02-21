@@ -19,7 +19,7 @@ def home():
             if user:
                 session['user_id'] = user[0]
                 session['username'] = user[1]
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('userBookShelf'))
             else:
                 error = "Invalid username. Please try again."
 
@@ -43,11 +43,10 @@ def create_account():
 
     return render_template('create_account.html', error=error)
 
-@app.route('/dashboard')
-def dashboard():
+@app.route('/userBookShelf')
+def userBookShelf():
     user_id = session.get('user_id')
     username = session.get('username')
-    print(user_id, username)
 
     if user_id is None:
         return redirect(url_for('home'))
@@ -63,7 +62,7 @@ def dashboard():
     shelf_size = 3
     shelves = [books[i:i + shelf_size] for i in range(0, len(books), shelf_size)]
 
-    return render_template('dashboard.html', username=username, shelves=shelves, shelf_size=shelf_size)
+    return render_template('userBookShelf.html', username=username, shelves=shelves, shelf_size=shelf_size)
 
 @app.route('/add_book', methods=['GET', 'POST'])
 def add_book():
@@ -91,7 +90,7 @@ def add_book():
                            (book_id, user_id, has_read, in_collection))
             conn.commit()
 
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('userBookShelf'))
 
     return render_template('add_book.html')
 
@@ -123,7 +122,7 @@ def edit_book(book_id):
             )
             conn.commit()
 
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('userBookShelf'))
 
 
     return render_template('edit_book.html', book=book)
@@ -131,7 +130,7 @@ def edit_book(book_id):
 @app.route('/delete_book/<int:book_id>', methods=['POST'])
 def delete_book(book_id):
     if not book_id:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('userBookShelf'))
 
     with sqlite3.connect("db.sqlite") as conn:
         cursor = conn.cursor()
@@ -139,7 +138,7 @@ def delete_book(book_id):
         cursor.execute("DELETE FROM BOOK WHERE book_id = ?", (book_id,))
         conn.commit()
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('userBookShelf'))
 
 @app.route('/search_books', methods=['GET', 'POST'])
 def search_books():
@@ -175,11 +174,6 @@ def search_books():
                 print(f"Error fetching books: {e}")
 
     return render_template('search_books.html', books=book_details, query=query)
-
-
-@app.route('/userBookShelf')
-def userBookShelf():
-    return render_template('userBookShelf.html')
 
 @app.route('/logout')
 def logout():

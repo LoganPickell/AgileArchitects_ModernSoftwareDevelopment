@@ -19,7 +19,20 @@ header {
     padding: 12px 12px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+/*banner-link*/
+.banner-link {
+    display: block; /* Makes the link cover the full banner */
+    text-decoration: none; /* Removes any default link styling */
+}
 
+/*banner */
+.banner{
+    background-image: url("img/cozyBanner.png");
+    min-height: 25vh;
+    padding: 50px;
+    background-size: cover;
+    background-position:center;
+}
 
 nav {
     background-color: #2c3e50; /* Dark blue-gray background */
