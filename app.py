@@ -51,7 +51,11 @@ def dashboard():
 
 @app.route('/search_videos')
 def search_videos():
-    return render_template('search_videos.html') 
+    return render_template('search_videos.html')
+
+@app.route('/userBookShelf')
+def userBookShelf():
+    return render_template('userBookShelf.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
