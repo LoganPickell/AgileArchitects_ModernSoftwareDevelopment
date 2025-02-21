@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 
 {% block title %}Dashboard{% endblock %}
+<header>
 
+</header>
 {% block content %}
-<a href="{{ url_for('add_book') }}">Add New Book</a>
+    <nav>
+        <div class="user-info">
+            <span>Welcome, {{ username }}</span>
+            <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
+            <a href="{{ url_for('add_book') }}">Add New Book</a>
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li>Library</li>
+            <li>My BookShelf</li>
+        </ul>
+    </nav>
+
     <div class="bookshelf">
         {% for shelf in shelves %}
             <div class="shelf">

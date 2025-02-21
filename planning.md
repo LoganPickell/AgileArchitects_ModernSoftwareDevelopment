@@ -31,3 +31,24 @@ BOOKSHELF ||--|{ BOOK : has
 
 
 ```
+---
+```mermaid
+flowchart TD
+A[Homepage] --> B[Search Books]
+A --> C[Add Book]
+A --> E[My Bookshelf]
+B --> F[Search Results] --> G[View Book Details]
+C --> A
+E --> D[Select Book] --> G
+G --> H[Edit Book]
+G --> I[Delete Book]
+G --> J[Mark as Favorite]
+G --> K[Update Reading Status]
+G --> L[Hide Book]
+H --> A
+I --> A
+J --> M[My Favorites]
+K --> A
+L --> N[Hidden Books]
+M --> G
+```
