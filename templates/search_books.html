@@ -12,22 +12,36 @@
     </form>
 
     {% if books %}
-        <h2>Results:</h2>
-        <ul>
+        <h2>Search Results:</h2>
+        <div class="book-list">
             {% for book in books %}
-                <li>
-                    <strong>{{ book.volumeInfo.title }}</strong>
-                    {% if book.volumeInfo.authors %}
-                        by {{ book.volumeInfo.authors | join(', ') }}
-                    {% endif %}
-                    <br>
-                    {% if book.volumeInfo.imageLinks.thumbnail %}
-                        <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="Book cover">
-                    {% endif %}
-                    <br>
-                    <a href="{{ book.volumeInfo.infoLink }}" target="_blank">More Info</a>
-                </li>
+                <div class="book-card">
+                    <img src="{{ book.cover_image }}" alt="Book Cover" class="book-cover">
+                    <div class="book-info">
+                        <h3>{{ book.title }}</h3>
+                        <p><strong>Author(s):</strong> {{ book.authors }}</p>
+                        <p><strong>Genre:</strong> {{ book.genre }}</p>
+                    </div>
+                    <form action="{{ url_for('userBookShelf') }}" method="POST" class="add-to-shelf-form">
+                        <input type="hidden" name="title" value="{{ book.title }}">
+                        <input type="hidden" name="authors" value="{{ book.authors }}">
+                        <input type="hidden" name="genre" value="{{ book.genre }}">
+                        <input type="hidden" name="cover_image" value="{{ book.cover_image }}">
+
+                        <div class="checkbox-group">
+                            <label for="has_read">
+                                <input type="checkbox" name="has_read" id="has_read"> I have read this book
+                            </label><br>
+
+                            <label for="own">
+                                <input type="checkbox" name="own" id="own"> I own this book
+                            </label><br>
+                        </div>
+
+                        <button type="submit" class="btn">Add to Bookshelf</button>
+                    </form>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% endif %}
 {% endblock %}

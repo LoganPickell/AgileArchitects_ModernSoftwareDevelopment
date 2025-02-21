@@ -3,10 +3,21 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+    <div class="title-box">
     <h1>CozyCorner</h1>
     <p>Track your personal book collection!</p>
+    </div>
 <div class="button-container">
-    <button onclick="window.location.href='{{ url_for('login') }}'">Login</button>
+    <form method="POST">
+        <h2>Login</h2>
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <button type="submit">Login</button>
+    </form>
     <button onclick="window.location.href='{{ url_for('create_account') }}'">Create Account</button>
 </div>
 {% endblock %}

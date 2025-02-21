@@ -3,7 +3,7 @@
 ```mermaid
 erDiagram
 
-USER{
+users{
     user_id int PK
     username string
 }
@@ -13,6 +13,7 @@ BOOK {
     title string
     author string
     genre string
+    image blob
     
 }
 
