@@ -9,7 +9,6 @@
         <div class="user-info">
             <span>Welcome, {{ username }}</span>
             <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
-            <a href="{{ url_for('add_book') }}">Add New Book</a>
         </div>
         <ul>
             <li><a href="/">Home</a></li>
@@ -18,26 +17,29 @@
         </ul>
     </nav>
 
-    <div class="bookshelf">
-        {% for shelf in shelves %}
-            <div class="shelf">
-                {% for book in shelf %}
-                     <div class="book-card">
-                     <img src="{{ book[3] }}" alt="Book Cover" class="book-cover">
-                         <div class="action-buttons">
-                             <a href="{{ url_for('edit_book', book_id=book[4]) }}" class="edit-button">✏️</a>
-                             <a href="#" class="delete-button" onclick="deleteBook({{ book[4] }})">🗑️</a>
-                         </div>
-                         <div class="book-info">
-                             <h3>Title: {{ book[0] }}</h3>
-                             <p>Author: {{ book[1] }}</p>
-                             <p>Genre: {{ book[2] }}</p>
-                         </div>
-                     </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
+    <div class="add-book-container">
+        <a href="{{ url_for('add_book') }}" class="add-book-button">➕ Add New Book</a>
     </div>
+        <div class="bookshelf">
+            {% for shelf in shelves %}
+                <div class="shelf">
+                    {% for book in shelf %}
+                         <div class="book-card">
+                         <img src="{{ book[3] }}" alt="Book Cover" class="book-cover">
+                             <div class="action-buttons">
+                                 <a href="{{ url_for('edit_book', book_id=book[4]) }}" class="edit-button">✏️</a>
+                                 <a href="#" class="delete-button" onclick="deleteBook({{ book[4] }})">🗑️</a>
+                             </div>
+                             <div class="book-info">
+                                 <h3>Title: {{ book[0] }}</h3>
+                                 <p>Author: {{ book[1] }}</p>
+                                 <p>Genre: {{ book[2] }}</p>
+                             </div>
+                         </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
 
     <script>
     function deleteBook(bookId) {

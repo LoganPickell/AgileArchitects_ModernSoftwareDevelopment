@@ -228,6 +228,20 @@ button:hover {
     color: #ff5722;
 }
 
+.add-book-container {
+    text-align: right;
+    margin: 10px 20px;
+}
+
+.add-book-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+
 /* Bookshelf styles */
 .bookshelf {
     display: flex;
