@@ -70,7 +70,7 @@ def add_book():
         title = request.form.get('title')
         author = request.form.get('author')
         genre = request.form.get('genre')
-        image = request.form.get('image') or '/static/assets/image/DefaultBookCover.jpg'
+        image = request.form.get('cover_image') or '/static/assets/image/DefaultBookCover.jpg'
         user_id = session.get('user_id')
         username= session.get('username')
 
