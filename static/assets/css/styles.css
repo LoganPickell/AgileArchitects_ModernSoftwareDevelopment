@@ -33,7 +33,13 @@ header {
     background-size: cover;
     background-position:center;
 }
+.createAccBtn{
+    background-color:goldenrod;
+}
 
+.createAccBtn{
+
+}
 nav {
     background-color: #2c3e50; /* Dark blue-gray background */
     color: white;
