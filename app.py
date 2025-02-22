@@ -161,7 +161,7 @@ def search_books():
                     authors = ', '.join(volume_info.get('authors', ['Unknown Author']))
                     genre = ', '.join(volume_info.get('categories', ['Unknown Genre']))
                     cover_image = volume_info.get('imageLinks', {}).get('thumbnail') or '/static/DefaultBookCover.jpg'
-                      
+
 
                     book_details.append({
                         'title': title,
@@ -174,6 +174,8 @@ def search_books():
                 print(f"Error fetching books: {e}")
 
     return render_template('search_books.html', books=book_details, query=query)
+
+
 
 @app.route('/logout')
 def logout():

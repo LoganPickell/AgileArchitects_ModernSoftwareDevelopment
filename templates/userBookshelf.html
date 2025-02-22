@@ -19,6 +19,9 @@
     <div class="add-book-container">
         <a href="{{ url_for('add_book') }}" class="add-book-button">➕ Add New Book</a>
     </div>
+    <div class="search-book-container">
+        <a href="{{ url_for('search_books') }}" class="search-books-button">➕ Search Books</a>
+    </div>
         <div class="bookshelf">
             {% for shelf in shelves %}
                 <div class="shelf">
