@@ -251,6 +251,12 @@ button:hover {
 .add-book-container {
     text-align: right;
     margin: 10px 20px;
+
+}
+
+.search-book-container {
+    text-align: right;
+    margin: 25px 20px;
 }
 
 .add-book-button {
@@ -259,6 +265,17 @@ button:hover {
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
+
+}
+
+.search-books-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+
+
 }
 
 

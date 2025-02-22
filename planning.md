@@ -19,14 +19,14 @@ BOOK {
 
 
 BOOKSHELF {
-    bookId int  PK
+    book_id int  PK
     user_id int PK
     hasRead bool
     inCollection bool
 }
 
 
-BOOKSHELF ||--|| USER : has
+BOOKSHELF ||--|| users : has
 BOOKSHELF ||--|{ BOOK : has
 
 
