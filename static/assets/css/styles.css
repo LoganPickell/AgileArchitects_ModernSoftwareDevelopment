@@ -37,7 +37,8 @@ header {
     background-color:goldenrod;
 }
 
-.createAccBtn{
+.createAccBtn:hover{
+    background-color: #966a29;
 
 }
 nav {
