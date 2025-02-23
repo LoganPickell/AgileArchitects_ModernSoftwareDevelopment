@@ -54,7 +54,7 @@ def userBookShelf():
     with sqlite3.connect("db.sqlite") as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT b.title, b.author, b.genre, b.image, b.book_id FROM BOOK b JOIN BOOKSHELF bs ON b.book_id = bs.book_id WHERE bs.user_id = ?",
+            "SELECT b.title, b.author, b.genre, b.image, b.book_id, bs.hasRead, bs.inCollection FROM BOOK b JOIN BOOKSHELF bs ON b.book_id = bs.book_id WHERE bs.user_id = ?",
             (user_id,))
         books = cursor.fetchall()
 
@@ -100,8 +100,10 @@ def edit_book(book_id):
     if not book_id:
         return redirect(url_for('user_bookshelf'))
 
+
     with sqlite3.connect("db.sqlite") as conn:
         cursor = conn.cursor()
+
         cursor.execute("SELECT title, author, genre, image FROM BOOK WHERE book_id = ?", (book_id,))
         book = cursor.fetchone()
 

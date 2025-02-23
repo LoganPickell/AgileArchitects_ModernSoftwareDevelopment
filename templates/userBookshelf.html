@@ -38,6 +38,8 @@
                                  <h3>Title: {{ book[0] }}</h3>
                                  <p>Author: {{ book[1] }}</p>
                                  <p>Genre: {{ book[2] }}</p>
+                                 <p>Have Read: {{ "Yes" if book[5]==1 else "No" }}</p>
+                                 <p>Own Book: {{ "Yes" if book[6]==1 else "No" }}</p>
                              </div>
                          </div>
                     {% endfor %}
