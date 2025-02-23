@@ -99,12 +99,15 @@ def add_book():
 def edit_book(book_id):
     if not book_id:
         return redirect(url_for('user_bookshelf'))
+    #prefill fields with info. from the database
+    user_id = session.get('user_id') #Get the current user ID
 
 
     with sqlite3.connect("db.sqlite") as conn:
         cursor = conn.cursor()
-
-        cursor.execute("SELECT title, author, genre, image FROM BOOK WHERE book_id = ?", (book_id,))
+       #Fetch book details along with has_read and in_collection
+        #from BOOKSHELF
+        cursor.execute("SELECT b.title, b.author, b.genre, b.image, bs.hasRead, bs.inCollection FROM BOOK b JOIN BOOKSHELF bs ON b.book_id=bs.book_id WHERE b.book_id = ? AND bs.user_id=?", (book_id,user_id))
         book = cursor.fetchone()
 
     if not book:
@@ -114,7 +117,12 @@ def edit_book(book_id):
         title = request.form.get('title')
         author = request.form.get('author')
         genre = request.form.get('genre')
-        image = request.form.get('image') or '/static/assets/image/DefaultBookCover.jpg'
+        image = request.form.get('image')
+        if not image: # If no new image is provided, keep the existing one
+            image=book[3]
+
+        hasRead = 1 if request.form.get('hasRead') else 0
+        inCollection = 1 if request.form.get('inCollection') else 0
 
         with sqlite3.connect("db.sqlite") as conn:
             cursor = conn.cursor()
@@ -122,10 +130,23 @@ def edit_book(book_id):
                 "UPDATE BOOK SET title = ?, author = ?, genre = ?, image = ? WHERE book_id = ?",
                 (title, author, genre, image, book_id)
             )
+            cursor.execute(
+                "UPDATE BOOKSHELF SET hasRead = ?, inCollection = ? WHERE book_id = ? AND user_id = ?",
+                (hasRead, inCollection, book_id, user_id)
+            )
             conn.commit()
 
         return redirect(url_for('userBookShelf'))
-
+        # Convert tuple to dictionary for template rendering
+        book= {
+            "title": book[0],
+            "author": book[1],
+            "genre": book[2],
+            "image": book[3],
+            "hasRead": bool(book[4]),
+            "inCollection": bool(book[5])
+        }
+    #print("Book data being passed to template:", book)  Debugging
 
     return render_template('edit_book.html', book=book)
 
