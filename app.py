@@ -146,7 +146,6 @@ def edit_book(book_id):
             "hasRead": bool(book[4]),
             "inCollection": bool(book[5])
         }
-    #print("Book data being passed to template:", book)  Debugging
 
     return render_template('edit_book.html', book=book)
 
