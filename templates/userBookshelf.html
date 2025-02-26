@@ -12,7 +12,7 @@
         </div>
         <ul>
         <li><a href="/userBookShelf">My BookShelf</a></li>
-
+        <li><a href="/search_books">Search Books</a></li>
 
 
         </ul>
@@ -20,9 +20,6 @@
 
     <div class="add-book-container">
         <a href="{{ url_for('add_book') }}" class="add-book-button">➕ Add New Book</a>
-    </div>
-    <div class="search-book-container">
-        <a href="{{ url_for('search_books') }}" class="search-books-button">➕ Search Books</a>
     </div>
         <div class="bookshelf">
             {% for shelf in shelves %}
