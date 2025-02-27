@@ -59,4 +59,5 @@ python app.py
 
 ## <h2 align="center"> Screenshots </h2>
 
-✨ Coming soon! ✨
+<img width="1199" alt="image" src="https://github.com/user-attachments/assets/f1e3caf1-e191-4aec-8a76-65aee1c03ce4" />
+
