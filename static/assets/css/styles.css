@@ -388,29 +388,39 @@ button:hover {
     gap: 20px;
 }
 
-.checkbox-group {
-    margin-top: 10px;
-    text-align: left;
-    padding: 0 10px;
+.book-card2 {
+    position: relative;
+    width: 200px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.2s;
 }
 
 .checkbox-group label {
     font-size: 14px;
+    white-space: nowrap;
 }
 
-.checkbox-group input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-.add-to-shelf-form {
-    margin-top: 15px;
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    align-items: flex-start;
 }
 
 .add-to-shelf-form .btn {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
     cursor: pointer;
     border-radius: 4px;
     text-transform: uppercase;
