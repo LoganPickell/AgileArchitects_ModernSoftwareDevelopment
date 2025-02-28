@@ -18,7 +18,7 @@ Easily **search** for specific books, and update your collection to reflect **ne
 1. **Clone Repository from GitHub**
 
 ```
-git clone https://github.com/LoganPickell/git-practice-LoganPickell
+git clone https://github.com/LoganPickell/AgileArchitects_ModernSoftwareDevelopment.git
 ```
 
 2. **Create a virtual environment** (optional but recommended):
