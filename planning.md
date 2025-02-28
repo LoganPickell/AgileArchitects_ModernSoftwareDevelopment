@@ -22,9 +22,9 @@ Stay on top of your reading progress with our intuitive app. Add books to your c
 ## User Stories
 
 1. As a user, I want to add books to my collection, so that I can track what I own and have read.
-2. As a user, I want to mark books as “Read”, “Currently Reading”,  or “To-Read” so that I can organize my reading progress.
-3. As a user, I want to view details about a specific book, including its title, author, and description, so that I can remember important information about each book.
-4. As a user, I want to be able to search for books by title or author, so that I can easily find books in my collection.
+2. As a user, I want to mark books as “Own” or “Have read."
+3. As a user, I want to view details about a specific book, including its title, author, and genre, so that I can remember important information about each book.
+4. As a user, I want to be able to search for books by title or author, so that I can easily find books.
 5. As a user, I want to edit or delete books from my collection, so that I can keep my list up to date. 
 
 ---
