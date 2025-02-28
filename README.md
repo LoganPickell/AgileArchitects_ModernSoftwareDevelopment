@@ -77,6 +77,10 @@ python app.py
 
 <img width="1199" alt="image" src="https://github.com/user-attachments/assets/f1e3caf1-e191-4aec-8a76-65aee1c03ce4" />
 <img width="1199" alt="image" src="https://github.com/user-attachments/assets/d98b2240-7527-414a-bade-9f73f783e113" />
-![myBookshelf](https://github.com/user-attachments/assets/7278a7ec-ce80-4114-b224-4f23ba8e7cfa)
+<img width="1196" alt="image" src="https://github.com/user-attachments/assets/53c57c74-46fc-439b-8a2f-10fc96a1f48a" />
+<img width="1187" alt="image" src="https://github.com/user-attachments/assets/c79adc20-a8c4-406f-8c09-bd4b2a586576" />
+<img width="1199" alt="image" src="https://github.com/user-attachments/assets/8afde38b-497e-4c1a-888a-4de1036c0392" />
+<img width="1196" alt="image" src="https://github.com/user-attachments/assets/49db1d7b-7f3d-4445-bafc-ef710bbad379" />
+
 
 
