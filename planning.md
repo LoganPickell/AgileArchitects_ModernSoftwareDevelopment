@@ -7,20 +7,20 @@ Stay on top of your reading progress with our intuitive app. Add books to your c
 ## Feature List
 
 ### Required Features:
-* Include recommended books that are displayed on the homepage
 * Include a search bar to find books by title or author
-* The ability to add books from the homepage to users' bookshelves
+* The ability to add books to users' bookshelves
 * The ability to delete books from the users' bookshelves
+* The ability to manually edit book details in bookshelves
 
 ### Should Have Features:
-* The ability to favorite a book on the homepage
+* The ability to favorite a book in users' bookshelves
 * Include a favorites page that displays users' favorite books
-
-### Nice To Have Features:
-* Citations included in book details
-* The ability to share bookshelves with others
 * The ability to mark books as "Have read", "Not read", or "Currently reading"
 
+### Nice To Have Features:
+* Include citations within book details
+* The ability to share bookshelves with others
+* Display recommended books in users' bookshelves
 ---
 ## User Stories
 
@@ -69,23 +69,22 @@ BOOKSHELF ||--|{ BOOK : has
 
 ```mermaid
 flowchart TD
-A[Homepage] --> B[Search Books]
-A --> C[Add Book]
-A --> E[My Bookshelf]
-B --> F[Search Results] --> G[View Book Details]
-C --> A
-E --> D[Select Book] --> G
-G --> H[Edit Book]
-G --> I[Delete Book]
-G --> J[Mark as Favorite]
-G --> K[Update Reading Status]
-G --> L[Hide Book]
-H --> A
+A[My Bookshelf] --> B[Search Books]
+A --> C[Add New Book]
+A --> D[Collected Book]
+B --> E[Search Results]
+C --> F[Set Book Details]
+D --> G[View Book Details]
+D --> H[Edit Book]
+D --> I[Delete Book]
+E --> J[Update Reading Status]
+E --> K[Add To Bookshelf]
+E --> G
+F --> J
+H --> F
 I --> A
-J --> M[My Favorites]
+J --> A
 K --> A
-L --> N[Hidden Books]
-M --> G
 ```
 ---
 ## List of Endpoints
