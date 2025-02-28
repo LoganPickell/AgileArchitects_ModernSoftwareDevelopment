@@ -92,7 +92,7 @@ M --> G
 
 | Method | Endpoint | Description | Authorization |
 |--------|----------|-------------|---------------|
-| GET    | /homepage | Display account creation and login options | Everyone |
+| GET/POST    | /homepage | Displays login form and a button to create account. Handles login form submission  | Everyone |
 | GET    | /homepage | Display search bar and book recommendations | User |
 | POST   | /homepage/<book_id> | Add a new book to the user's bookshelf or favorites | User |
 | POST   | /login | Submit login request and authenticate user using username | Everyone |
