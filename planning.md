@@ -94,13 +94,10 @@ K --> A
 | GET    | /homepage | Display account creation and login options | Everyone |
 | GET    | /create_account | Display create account form page. | Everyone |
 | POST   | /create_account | Submit new user creation request and store in database | Everyone |
-
 | GET    | /userBookShelf | Display all books added by the user to their bookshelf | User |
 | GET    | /add_book      | Display add book page.                                 | User |
 | POST   | /add_book      | Inserts book into the database and redirects to /userBookShelf | User |
-| GET    | /edit_book/<int:book_id> |
-
-
+| GET    | /edit_book/<int:book_id> | Edit book details | User
 | DELETE | /dashboard/<book_id> | Delete a book from the user's collection | User |
 | GET    | /favorites | Display a page with all the user's favorite books | User |
 | DELETE | /favorites/<book_id> | Delete a book from the user's favorites | User |
