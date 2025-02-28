@@ -1,7 +1,7 @@
 # Planning Document for Agile Architects Book Tracker App
 
 ## App Description
-Stay on top of your reading progress with our intuitive app. Add books to your collection, categorize them by reading status, and view essential details like titles, authors, and descriptions. Easily search for specific books, and update your collection to reflect new reads or books you no longer own.
+Stay on top of your reading progress with our intuitive app. Add books to your collection, categorize them by reading status, and view essential details like titles, authors, and genre. Easily search for specific books, and update your collection to reflect new reads or books you own.
 
 ---
 ## Feature List
