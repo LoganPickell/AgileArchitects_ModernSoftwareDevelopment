@@ -10,13 +10,10 @@ Stay on top of your reading progress with our intuitive app. Add books to your c
 * Include a search bar to find books by title or author
 * The ability to add books to users' bookshelves
 * The ability to delete books from the users' bookshelves
-* The ability to manually edit book details in bookshelves
-
+  
 ### Should Have Features:
-* The ability to favorite a book in users' bookshelves
-* Include a favorites page that displays users' favorite books
-* The ability to mark books as "Have read", "Not read", or "Currently reading"
-
+* The ability to manually edit book details in bookshelves
+* The ability to mark books as "Have read" and "Own"
 ### Nice To Have Features:
 * Include citations within book details
 * The ability to share bookshelves with others
@@ -92,7 +89,7 @@ K --> A
 | Method | Endpoint | Description | Authorization |
 |--------|----------|-------------|---------------|
 | GET    | / | Display home page( A.K.A login page) | Everyone |
-| POST   | / | Submit username that will be validated. | | Everyone |
+| POST   | / | Submit username that will be validated. | Everyone |
 | GET    | /create_account | Display create account form page. | Everyone |
 | POST   | /create_account | Submit new user creation request and store in database. | Everyone |
 | GET    | /userBookShelf | Display all books added by the user to their bookshelf. | User |
@@ -103,4 +100,4 @@ K --> A
 | POST | /delete_book/<int:book_id> | Delete a book from the user's bookshelf | User |
 | GET    | /search_books | Display search books page. | User |
 | POST   | /search_books | Adds a book from search results to the user's bookshelf | User |
-| GET    | /logout       | Displays login page. | User |
+| GET    | /logout       | Displays home page. | User |
