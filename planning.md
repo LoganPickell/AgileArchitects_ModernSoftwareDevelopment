@@ -93,12 +93,15 @@ M --> G
 | Method | Endpoint | Description | Authorization |
 |--------|----------|-------------|---------------|
 | GET    | /homepage | Display account creation and login options | Everyone |
-| GET    | /homepage | Display search bar and book recommendations | User |
-| POST   | /homepage/<book_id> | Add a new book to the user's bookshelf or favorites | User |
-| POST   | /login | Submit login request and authenticate user using username | Everyone |
-| GET    | /create_account | Display create account form | Everyone |
+| GET    | /create_account | Display create account form page. | Everyone |
 | POST   | /create_account | Submit new user creation request and store in database | Everyone |
-| GET    | /dashboard | Display all books added by the user to their bookshelf | User |
+
+| GET    | /userBookShelf | Display all books added by the user to their bookshelf | User |
+| GET    | /add_book      | Display add book page.                                 | User |
+| POST   | /add_book      | Inserts book into the database and redirects to /userBookShelf | User |
+| GET    | /edit_book/<int:book_id> |
+
+
 | DELETE | /dashboard/<book_id> | Delete a book from the user's collection | User |
 | GET    | /favorites | Display a page with all the user's favorite books | User |
 | DELETE | /favorites/<book_id> | Delete a book from the user's favorites | User |
