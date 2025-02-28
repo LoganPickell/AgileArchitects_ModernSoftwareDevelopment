@@ -91,18 +91,16 @@ K --> A
 
 | Method | Endpoint | Description | Authorization |
 |--------|----------|-------------|---------------|
-| GET    | /homepage | Display account creation and login options | Everyone |
+| GET    | / | Display home page( A.K.A login page) | Everyone |
+| POST   | / | Submit username that will be validated. | | Everyone |
 | GET    | /create_account | Display create account form page. | Everyone |
-| POST   | /create_account | Submit new user creation request and store in database | Everyone |
-| GET    | /userBookShelf | Display all books added by the user to their bookshelf | User |
+| POST   | /create_account | Submit new user creation request and store in database. | Everyone |
+| GET    | /userBookShelf | Display all books added by the user to their bookshelf. | User |
 | GET    | /add_book      | Display add book page.                                 | User |
 | POST   | /add_book      | Inserts book into the database and redirects to /userBookShelf | User |
-| GET    | /edit_book/<int:book_id> | Edit book details | User
-| DELETE | /dashboard/<book_id> | Delete a book from the user's collection | User |
-| GET    | /favorites | Display a page with all the user's favorite books | User |
-| DELETE | /favorites/<book_id> | Delete a book from the user's favorites | User |
-| PUT    | /dashboard/<book_id>/status | Update the reading status (Read, Currently Read, To-Read) | User |
-| GET    | /search_books | Search for books by title or author | User |
-| POST   | /search_books/<book_id>/add | Add a book from search results to the user's bookshelf | User |
-| POST   | /search_books/<book_id>/favorite | Add a book from search results to the user's favorites | User |
-| GET    | /book/<book_id> | Display detailed info about a specific book | User |
+| GET    | /edit_book/<int:book_id> | Display edit book page. | User |
+| POST   | /edit_book/<int:book_id> | Modifies book in database and redirects to /userBookShelf | User |
+| POST | /delete_book/<int:book_id> | Delete a book from the user's bookshelf | User |
+| GET    | /search_books | Display search books page. | User |
+| POST   | /search_books | Adds a book from search results to the user's bookshelf | User |
+| GET    | /logout       | Displays login page. | User |
