@@ -73,8 +73,8 @@ def add_book():
         user_id = session.get('user_id')
         username= session.get('username')
 
-        has_read = 1 if request.form.get('has_read') else 0
-        in_collection = 1 if request.form.get('in_collection') else 0
+        hasRead = 1 if request.form.get('hasRead') else 0
+        inCollection = 1 if request.form.get('inCollection') else 0
 
         with sqlite3.connect("db.sqlite") as conn:
             cursor = conn.cursor()
@@ -86,7 +86,7 @@ def add_book():
             book_id = cursor.lastrowid
 
             cursor.execute("INSERT INTO BOOKSHELF (book_id, user_id, hasRead, inCollection) VALUES (?, ?, ?, ?)",
-                           (book_id, user_id, has_read, in_collection))
+                           (book_id, user_id, hasRead, inCollection))
             conn.commit()
 
         return redirect(url_for('userBookShelf'))
@@ -97,7 +97,7 @@ def add_book():
 @app.route('/edit_book/<int:book_id>', methods=['GET', 'POST'])
 def edit_book(book_id):
     if not book_id:
-        return redirect(url_for('user_bookshelf'))
+        return redirect(url_for('userBookshelf'))
     #prefill fields with info. from the database
     user_id = session.get('user_id') #Get the current user ID
 
@@ -110,7 +110,7 @@ def edit_book(book_id):
         book = cursor.fetchone()
 
     if not book:
-        return redirect(url_for('user_bookshelf'))
+        return redirect(url_for('userBookshelf'))
 
     if request.method == 'POST':
         title = request.form.get('title')

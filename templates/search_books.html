@@ -41,15 +41,15 @@
                         <input type="hidden" name="genre" value="{{ book.genre }}">
                         <input type="hidden" name="cover_image" value="{{ book.cover_image }}">
 
-                        <div class="checkbox-group">
-                            <label for="has_read">
-                                <input type="checkbox" name="has_read" id="has_read"> I have read this book
-                            </label><br>
+                    <div class="checkbox-group">
+                        <label for="hasRead_{{ loop.index }}">
+                            <input type="checkbox" name="hasRead" id="hasRead_{{ loop.index }}"> I have read this book
+                        </label><br>
 
-                            <label for="in_collection">
-                                <input type="checkbox" name="in_collection" id="in_collection"> I own this book
-                            </label><br>
-                        </div>
+                        <label for="inCollection_{{ loop.index }}">
+                            <input type="checkbox" name="inCollection" id="inCollection_{{ loop.index }}"> I own this book
+                        </label><br>
+                    </div>
 
                         <button type="submit" class="btn">Add to Bookshelf</button>
                     </form>
