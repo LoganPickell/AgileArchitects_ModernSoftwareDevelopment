@@ -25,6 +25,9 @@ def home():
 
     return render_template('home.html', error=error)
 
+
+#this is a note for testing
+
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
     error = None
