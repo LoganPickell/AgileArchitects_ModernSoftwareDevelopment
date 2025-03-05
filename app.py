@@ -69,7 +69,7 @@ def add_book():
         title = request.form.get('title')
         author = request.form.get('author')
         genre = request.form.get('genre')
-        image = request.form.get('cover_image') or '/static/assets/css/img/DefaultBookCover.jpg'
+        image = request.form.get('cover_image') or '/static/assets/img/DefaultBookCover.jpg'
         user_id = session.get('user_id')
         username= session.get('username')
 
@@ -181,7 +181,7 @@ def search_books():
                     title = volume_info.get('title', 'No Title Available')
                     authors = ', '.join(volume_info.get('authors', ['Unknown Author']))
                     genre = ', '.join(volume_info.get('categories', ['Unknown Genre']))
-                    cover_image = volume_info.get('imageLinks', {}).get('thumbnail') or '/static/assets/css/img/DefaultBookCover.jpg'
+                    cover_image = volume_info.get('imageLinks', {}).get('thumbnail') or '/static/assets/img/DefaultBookCover.jpg'
 
 
                     book_details.append({

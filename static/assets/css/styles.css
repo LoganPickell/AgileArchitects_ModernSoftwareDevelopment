@@ -27,7 +27,7 @@ header {
 
 /*banner */
 .banner{
-    background-image: url("img/cozyBanner.png");
+    background-image: url("../img/cozyBanner.png");
     min-height: 25vh;
     padding: 50px;
     background-size: cover;
@@ -290,7 +290,7 @@ button:hover {
 .shelf {
     display: flex;
     justify-content: space-evenly;
-    background: url('img/wood_background.jpg') center no-repeat;
+    background: url('../img/wood_background.jpg') center no-repeat;
     padding: 10px;
     border-radius: 5px;
     box-shadow:inset 0 -2px 5px rgba(0, 0, 0, 0.3);
