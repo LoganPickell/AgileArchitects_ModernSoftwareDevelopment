@@ -61,8 +61,7 @@ def userBookShelf():
             (user_id,))
         books = cursor.fetchall()
 
-    print(books)
-    shelf_size = 3
+    shelf_size = 8
     shelves = [books[i:i + shelf_size] for i in range(0, len(books), shelf_size)]
 
     return render_template('userBookShelf.html', username=username, shelves=shelves, shelf_size=shelf_size)

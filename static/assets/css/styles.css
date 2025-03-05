@@ -204,12 +204,12 @@ input[type="text"] {
 /* Button */
 
 .button-container {
-    max-width: 400px; /* Adjust based on your design */
+    max-width: 400px;
     margin: 0 auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Space between buttons */
+    gap: 20px;
 }
 
 .button-container h2 {
@@ -265,7 +265,6 @@ button:hover {
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
-
 }
 
 .search-books-button {
@@ -274,8 +273,6 @@ button:hover {
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
-
-
 }
 
 
@@ -283,39 +280,81 @@ button:hover {
 .bookshelf {
     display: flex;
     flex-direction: column;
-    margin: 40px;
+    margin: 30px;
     gap: 20px;
     padding: 20px;
-    background-color: #f4f4f4;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .shelf {
     display: flex;
     justify-content: space-evenly;
-    background-color: #966a29;
+    background: url('img/wood_background.jpg') center no-repeat;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow:inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+    border-bottom: 20px solid #5c3b1e;
 }
+
+.bookshelf::before,
+.bookshelf::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    background: #5c3b1e; /* Dark wood */
+}
+
+.bookshelf::before { left: 0; }
+.bookshelf::after { right: 0; }
+
 
 .book-card {
     position: relative;
+    width: 180px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
     background: #f4f4f4;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-align: center;
     transition: transform 0.2s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
 }
 
 .book-card:hover {
     transform: scale(1.05);
+}
+
+.book-cover {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 2px 8px 5px rgba(0, 0, 0, 0.2);
+}
+
+.book-info {
+    font-family: "Arial", sans-serif;
+    font-size: 14px;
+    text-align: center;
+    color: #333;
+    padding: 5px;
+    width: 100%;
+    white-space: wrap;
+    overflow: visible;
+    text-overflow: ellipsis;
+}
+
+.book-info h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
 }
 
 .action-buttons {
@@ -340,7 +379,7 @@ button:hover {
 .edit-button:hover { background-color: #005bb5; }
 
 .delete-button { background-color: #dc3545; }
-.delete-button:hover { background-color: #c82333; }
+.delete-button:hover { background-color: #7a0f1d;}
 
 /* search_books styles */
 .book-list {
@@ -349,51 +388,39 @@ button:hover {
     gap: 20px;
 }
 
-
-.book-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.book-details {
-    padding: 10px;
-    text-align: center;
-    width: 100%;
-    min-height: 100px; /* Prevents text from overlapping */
+.book-card2 {
+    position: relative;
+    width: 200px;
+    height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-}
-
-.book-info h3 {
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-
-.checkbox-group {
-    margin-top: 10px;
-    text-align: left;
-    padding: 0 10px;
+    align-items: center;
+    padding: 10px;
+    background: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.2s;
 }
 
 .checkbox-group label {
     font-size: 14px;
+    white-space: nowrap;
 }
 
-.checkbox-group input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-.add-to-shelf-form {
-    margin-top: 15px;
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    align-items: flex-start;
 }
 
 .add-to-shelf-form .btn {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
     cursor: pointer;
     border-radius: 4px;
     text-transform: uppercase;
