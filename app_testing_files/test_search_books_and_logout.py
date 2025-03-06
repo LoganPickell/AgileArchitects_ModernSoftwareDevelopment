@@ -1,6 +1,8 @@
 import os
 import sys
 import pytest
+import requests
+from unittest.mock import patch
 from flask import Flask
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -14,14 +16,31 @@ def client():
         yield client
 
 
-#Testing for the logout endpoint
+# Testing for the logout endpoint
 def test_logout(client):
     response = client.get("/logout")  # Test the logout route on the app
     assert response.status_code == 302  # Check if the response is a redirection.
     assert response.location == "/"  # Verify it redirects to the home page. Replace '/' if different.
 
+
 def test_logout_wrong(client):
-    response = client.get("/logot") #use incorrect route
-    assert response.status_code == 404 #should return a not found
+    response = client.get("/logot")  # use incorrect route
+    assert response.status_code == 404  # should return a not found
+
+
+#Test to ensure that the query is being stripped properly
+def test_search_books_strip(client):
+    response = client.post('/search_books', data={'query': ' harry '})
+    assert response.status_code == 200
+    assert 'harry' in response.data.decode()
+
+#Testing that the result is returning all of the html elements
+def test_search_books_results(client):
+    response = client.post('/search_books', data={'query': 'harry'})
+
+    assert response.status_code == 200
+    #now we need to check that our HTML elements are in the response
+    assert '<div class="book-card2">'
+
 
 
