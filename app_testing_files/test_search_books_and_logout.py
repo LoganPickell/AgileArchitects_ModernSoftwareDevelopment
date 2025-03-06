@@ -40,7 +40,7 @@ def test_search_books_results(client):
 
     assert response.status_code == 200
     #now we need to check that our HTML elements are in the response
-    assert '<div class="book-card2">'
+    assert '<div class="book-card2">' in response.data.decode()
 
 
 
