@@ -55,7 +55,7 @@ def userBookShelf():
     with sqlite3.connect("db.sqlite") as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT b.title, b.author, b.genre, b.image, b.book_id, bs.hasRead, bs.inCollection FROM BOOK b JOIN BOOKSHELF bs ON b.book_id = bs.book_id WHERE bs.user_id = ?",
+            "SELECT b.title, b.author, b.genre, b.image, b.book_id, bs.hasRead, bs.inCollection, bs.isFavorite FROM BOOK b JOIN BOOKSHELF bs ON b.book_id = bs.book_id WHERE bs.user_id = ?",
             (user_id,))
         books = cursor.fetchall()
 
@@ -197,7 +197,26 @@ def search_books():
 
     return render_template('search_books.html', books=book_details, query=query)
 
+@app.route('/toggle_favorite/<int:book_id>', methods=['POST'])
+def toggle_favorite(book_id):
+    user_id = session.get('user_id')
 
+    if user_id is None:
+        return redirect(url_for('home'))
+
+    with sqlite3.connect("db.sqlite") as conn:
+        cursor = conn.cursor()
+        # Check current favorite status
+        cursor.execute("SELECT isFavorite FROM BOOKSHELF WHERE book_id = ? AND user_id = ?", (book_id, user_id))
+        current_status = cursor.fetchone()
+
+        if current_status is not None:
+            new_status = 0 if current_status[0] else 1  # Toggle favorite status
+            cursor.execute("UPDATE BOOKSHELF SET isFavorite = ? WHERE book_id = ? AND user_id = ?",
+                           (new_status, book_id, user_id))
+            conn.commit()
+
+    return redirect(url_for('userBookShelf'))
 
 @app.route('/logout')
 def logout():
