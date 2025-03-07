@@ -30,17 +30,21 @@ def test_logout_wrong(client):
 
 #Test to ensure that the query is being stripped properly
 def test_search_books_strip(client):
+    #send the request from the client as a post, with the data included in the request
     response = client.post('/search_books', data={'query': ' harry '})
+    #ensure that the response code is the 200 that is expected
     assert response.status_code == 200
+    #make sure that the response includes the search term in some way
     assert 'harry' in response.data.decode()
 
-#Testing that the result is returning all of the html elements
+#Testing that the result is returning all the html elements
 def test_search_books_results(client):
     response = client.post('/search_books', data={'query': 'harry'})
 
     assert response.status_code == 200
     #now we need to check that our HTML elements are in the response
     assert '<div class="book-card2">' in response.data.decode()
+    assert '<div class="book-info">' in response.data.decode()
 
 
 
