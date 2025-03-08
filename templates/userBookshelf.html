@@ -1,22 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'main.html' %}
 
 {% block title %}Dashboard{% endblock %}
 <header>
 
 </header>
 {% block content %}
-    <nav>
-        <div class="user-info">
-            <span>Welcome, {{ username }}</span>
-            <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
-        </div>
-        <ul>
-        <li><a href="/userBookShelf">My BookShelf</a></li>
-        <li><a href="/search_books">Search Books</a></li>
 
-
-        </ul>
-    </nav>
 
     <div class="add-book-container">
         <a href="{{ url_for('add_book') }}" class="add-book-button">➕ Add New Book</a>
