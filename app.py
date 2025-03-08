@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import sqlite3
 import requests
 import secrets
+import re
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -29,7 +30,6 @@ class BookShelf(db.Model):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    error = None
     if request.method == 'POST':
         username = request.form['username']
 
@@ -40,27 +40,61 @@ def home():
             session['username'] = user.username
             return redirect(url_for('userBookShelf'))
         else:
-            error = "Invalid username. Please try again."
+            flash("Invalid username. Please try again.", "error")
 
-    return render_template('home.html', error=error)
+    return render_template('home.html')
+
+
+
+def username_validation(username):
+    if len(username) > 25:
+        raise ValueError("Username is too long, keep it under 25 characters")
+
+    if not re.match(r"^[a-zA-Z0-9_]+$", username):
+        raise ValueError("Invalid username: Only letters, numbers, and underscores are allowed")
+
+    sql_injection_patterns = [
+        r"(--|\#|\;)",
+        r"(\b(SELECT|INSERT|DELETE|UPDATE|DROP|ALTER|CREATE|TRUNCATE|REPLACE)\b)",
+        r"(\b(UNION|EXEC|EXECUTE|FETCH|DECLARE|CAST|CONVERT)\b)",
+        r"(\b(OR|AND)\b.*?[=<>])",
+        r"['\"\\]",
+    ]
+
+    for pattern in sql_injection_patterns:
+        if re.search(pattern, username, re.IGNORECASE):
+            raise ValueError("Invalid username: possible SQL injection attempt")
+
+
+    existing_user = User.query.filter_by(username=username).first()
+    if existing_user:
+        raise ValueError("Username already exists")
+
+    return username
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
     error = None
     if request.method == 'POST':
-        username = request.form['username']
+        username = request.form['username'].lower()
 
+        if not username:
+            flash("Username cannot be empty", "error")
+            return render_template('create_account.html', error="Username cannot be empty"), 400
         try:
-            new_user = User(username=username)
+            valid_new_user = username_validation(username)
+            new_user = User(username=valid_new_user)
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for('home'))
-        except Exception as e:
-            db.session.rollback()
-            if "UNIQUE constraint failed" in str(e):
-                error = "Username already exists. Try another one."
+            flash(f"Account created for {username}!", "success")
+            return redirect(url_for('home')), 302
 
-    return render_template('create_account.html', error=error)
+        except ValueError as e:
+            flash(str(e), "error")
+            return render_template('create_account.html', error=str(e)), 400
+
+    return render_template('create_account.html')
+
 
 @app.route('/userBookShelf')
 def userBookShelf():
