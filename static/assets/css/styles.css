@@ -363,7 +363,7 @@ button:hover {
     right: 10px;
 }
 
-.edit-button, .delete-button {
+.edit-button, .delete-button, .favorite-button {
     font-size: 12px;
     padding: 5px 10px;
     color: white;
@@ -380,6 +380,9 @@ button:hover {
 
 .delete-button { background-color: #dc3545; }
 .delete-button:hover { background-color: #7a0f1d;}
+
+.favorite-button { background-color: #f794d2; }
+.favorite-button:hover { background-color: #d654a6; }
 
 /* search_books styles */
 .book-list {
