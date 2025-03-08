@@ -27,6 +27,7 @@ class BookShelf(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     hasRead = db.Column(db.Integer, nullable=False)
     inCollection = db.Column(db.Integer, nullable=False)
+    isFavorite = db.Column(db.Integer, default=0, nullable=False)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -95,7 +96,6 @@ def create_account():
 
     return render_template('create_account.html')
 
-
 @app.route('/userBookShelf')
 def userBookShelf():
     user_id = session.get('user_id')
@@ -106,7 +106,7 @@ def userBookShelf():
 
     books = db.session.query(
         Book.title, Book.author, Book.genre, Book.image, Book.book_id,
-        BookShelf.hasRead, BookShelf.inCollection
+        BookShelf.hasRead, BookShelf.inCollection, BookShelf.isFavorite
     ).join(BookShelf, Book.book_id == BookShelf.book_id).filter(BookShelf.user_id == user_id).all()
 
     shelf_size = 8
@@ -252,6 +252,20 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
 
+@app.route('/toggle_favorite/<int:book_id>', methods=['POST'])
+def toggle_favorite(book_id):
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        return redirect(url_for('home'))
+
+    book_shelf_entry = BookShelf.query.filter_by(book_id=book_id, user_id=user_id).first()
+
+    if book_shelf_entry:
+        book_shelf_entry.isFavorite = not book_shelf_entry.isFavorite
+        db.session.commit()
+
+    return redirect(url_for('userBookShelf'))
 
 if __name__ == '__main__':
     with app.app_context():

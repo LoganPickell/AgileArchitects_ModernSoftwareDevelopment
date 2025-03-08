@@ -1,21 +1,9 @@
-{% extends "base.html" %}
+{% extends "main.html" %}
 
 {% block title %}Search Books{% endblock %}
 {% block banner_class %}banner-small{% endblock %}
 {% block content %}
-    <nav>
-        <div class="user-info">
-            <span>Let's Search</span>
-            <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
-        </div>
-        <ul>
-        <li><a href="/userBookShelf">My BookShelf</a></li>
-        <li><a href="/search_books">Search Books</a></li>
 
-
-
-        </ul>
-    </nav>
     <h1>Search Books</h1>
 
 
