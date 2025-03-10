@@ -112,32 +112,32 @@ nav ul li a:hover {
 /* User Info Styling */
 .user-info {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    gap: 15px; /* Space between the username and the logout button */
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
     padding: 10px 20px;
-    font-size: 20px; /* Larger text for the username */
+    font-size: 20px;
     font-weight: bold;
-    color: #333; /* Dark text for contrast */
+    color: white;
 }
 
 .user-info span {
-    font-size: 24px; /* Make the username text a little bigger */
-    color: whitesmoke; /* Highlight the username color */
+    font-size: 24px;
+    color: whitesmoke;
 }
 
 .logout-button {
-    font-size: 18px; /* Make the logout button a bit larger */
+    font-size: 18px;
     padding: 8px 16px;
-    background-color: #007bfc; /* Blue background */
-    color: white; /* White text */
-    text-decoration: none; /* Remove underline */
+    background-color: #007bfc;
+    color: white;
+    text-decoration: none;
     border-radius: 4px;
-    transition: background-color 0.3s ease; /* Smooth hover transition */
+    transition: background-color 0.3s ease;
 }
 
 .logout-button:hover {
-    background-color: #005bb5; /* Darker blue on hover */
+    background-color: #005bb5;
     cursor: pointer;
 }
 
@@ -147,7 +147,7 @@ main {
     flex: 1;
     padding: 20px;
     text-align: center;
-    margin-top: 40px; /* Space between header and main */
+    margin-top: 40px;
 }
 
 /* Create account form */
