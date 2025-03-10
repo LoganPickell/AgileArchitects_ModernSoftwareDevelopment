@@ -8,6 +8,7 @@ from flask import Flask
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app import app
 
+#home
 
 @pytest.fixture
 def client():
