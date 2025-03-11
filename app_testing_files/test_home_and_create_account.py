@@ -1,21 +1,30 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + "/.."))
+
+
 import pytest
 from app import app, db, User
+
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 
 @pytest.fixture
 def test_client():
-    app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    print(f"Database URI: {app.config['SQLALCHEMY_DATABASE_URI']}")  # Debug
-
+    app.config['TESTING'] = True
+    print(f"Before test: {app.config['SQLALCHEMY_DATABASE_URI']}")  # Debug
     with app.app_context():
         db.create_all()
+        print(f"After test: {app.config['SQLALCHEMY_DATABASE_URI']}")  # Debug
         yield app.test_client()
-        db.session.remove()
         db.drop_all()
 
 
 def test_create_account_valid(test_client):
+    print(f"During test: {app.config['SQLALCHEMY_DATABASE_URI']}")
+    print(f"DB URI being used: {db.engine.url}")
     response = test_client.post('/create_account', data={'username': 'newuser'})
     assert response.status_code == 302
     assert response.location == '/'
@@ -25,12 +34,14 @@ def test_create_account_valid(test_client):
 
 def test_create_account_empty_username(test_client):
     response = test_client.post('/create_account', data={'username': ''})
+    print(f"DB URI being used: {db.engine.url}")
     assert response.status_code == 400
     assert b"Username cannot be empty" in response.data
 
 def test_create_account_case_sensitive(test_client):
     test_client.post('/create_account', data={'username': 'user'})
     response = test_client.post('/create_account', data={'username': 'User'})
+    print(f"DB URI being used: {db.engine.url}")
     assert response.status_code == 400
     assert b"Username already exists" in response.data
 
