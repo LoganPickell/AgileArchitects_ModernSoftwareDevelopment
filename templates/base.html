@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Page Title{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/css/img/stack-of-books.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/stack-of-books.ico') }}">
     <!-- Books icons created by popo2021 - Flaticon: https://www.flaticon.com/free-icons/books -->
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/styles.css') }}">
 </head>
 <body>
 <header>
-<a href="/" class="banner-link">
-    <div class="banner"></div>
-</a>
-
+    <a href="/" class="banner-link">
+        <div class="banner {% block banner_class %}{% endblock %}"></div>
+    </a>
 </header>
 
 <main>

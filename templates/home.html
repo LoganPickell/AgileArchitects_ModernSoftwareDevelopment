@@ -6,14 +6,24 @@
 <div class="button-container">
     <form method="POST">
         <h2>Login</h2>
-            {% if error %}
-            <p style="color: red;">{{ error }}</p>
-        {% endif %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 
         <button type="submit">Login</button>
     </form>
-    <button class="createAccBtn"  onclick="window.location.href='{{ url_for('create_account') }}'">Create Account</button>
+    <button class="createAccBtn" onclick="window.location.href='{{ url_for('create_account') }}'">Create Account</button>
 </div>
 {% endblock %}

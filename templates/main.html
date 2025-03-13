@@ -3,7 +3,11 @@
 {% block navigation %}
     <nav>
         <div class="user-info">
-            <span>Let's Search</span>
+            {% if request.path == '/userBookShelf' %}
+            {{ username }}'s BookShelf
+            {% elif request.path == '/search_books' %}
+                    Search for Books
+            {% endif %}
             <a class="logout-button" href="{{ url_for('home') }}">Logout</a>
         </div>
         <ul>

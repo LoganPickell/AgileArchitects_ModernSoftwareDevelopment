@@ -5,23 +5,23 @@
     <form method="POST">
         <div>
             <label for="title">Title</label>
-            <input type="text" id="title" name="title" value="{{ book[0] }}" required>
+            <input type="text" id="title" name="title" value="{{ book.title }}" required>
         </div>
         <div>
             <label for="author">Author</label>
-            <input type="text" id="author" name="author" value="{{ book[1] }}" required>
+            <input type="text" id="author" name="author" value="{{ book.author }}" required>
         </div>
         <div>
             <label for="genre">Genre</label>
-            <input type="text" id="genre" name="genre" value="{{ book[2] }}" required>
+            <input type="text" id="genre" name="genre" value="{{ book.genre }}" required>
         </div>
         <div>
             <label for="hasRead">Have you read this book?</label>
-            <input type="checkbox" id="hasRead" name="hasRead" {% if book[4] == 1 %}checked{% endif %}>
+            <input type="checkbox" id="hasRead" name="hasRead" {% if book.hasRead == 1 %}checked{% endif %}>
         </div>
         <div>
             <label for="inCollection">Do you own this book?</label>
-            <input type="checkbox" id="inCollection" name="inCollection" {% if book[5] == 1 %}checked{% endif %}>
+            <input type="checkbox" id="inCollection" name="inCollection" {% if book.inCollection == 1 %}checked{% endif %}>
         </div>
         <button type="submit">Update Book</button>
     </form>

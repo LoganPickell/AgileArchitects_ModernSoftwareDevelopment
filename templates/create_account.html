@@ -4,16 +4,26 @@
 
 {% block content %}
     <div class="title-box">
-    <h1>Create Account</h1>
+        <h1>Create Account</h1>
     </div>
+
+
     <form method="POST">
-        {% if error %}
-            <p style="color: red;">{{ error }}</p>
-        {% endif %}
+        <!-- Flash messages display -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <button type="submit" class="createAccBtn">Create Account</button>
     </form>
-    <a href="{{ url_for('home') }}" class="back-arrow">&#8592;</a>
-
 {% endblock %}
