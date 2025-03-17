@@ -141,56 +141,67 @@ def add_book():
 
 @app.route('/edit_book/<int:book_id>', methods=['GET', 'POST'])
 def edit_book(book_id):
-    if not book_id:
-        return redirect(url_for('userBookShelf'))
+   if not book_id:
+       return redirect(url_for('userBookShelf'))
 
-    user_id = session.get('user_id')  # Get the current user ID
+   user_id = session.get('user_id')  # Get the current user ID
 
-    # Fetch book details along with hasRead and inCollection from BookShelf
-    book = db.session.query(Book, BookShelf).join(BookShelf, Book.book_id == BookShelf.book_id).filter(
-        Book.book_id == book_id, BookShelf.user_id == user_id).first()
+   if user_id is None:
+       flash("You must be logged in to edit a book.", "error")
+       return redirect(url_for('home')), 302
 
-    if not book:
-        return redirect(url_for('userBookShelf'))
+   # Fetch book details along with hasRead and inCollection from BookShelf
+   book = db.session.query(Book, BookShelf).join(BookShelf, Book.book_id == BookShelf.book_id).filter(
+       Book.book_id == book_id, BookShelf.user_id == user_id).first()
 
-    book_data, book_shelf_data = book
+   if not book:
+       # Return 403 if the book does not belong to the user
+       book_exists = Book.query.get(book_id)
+       if book_exists:
+           return "You do not have permission to edit this book", 403
+       return "Book not found", 404  # Return 404 if the book does not exist
 
-    if request.method == 'POST':
-        title = request.form.get('title')
-        author = request.form.get('author')
-        genre = request.form.get('genre')
-        image = request.form.get('image') or book_data.image  # Keep existing image if no new one is provided
+   book_data, book_shelf_data = book
 
-        hasRead = 1 if request.form.get('hasRead') else 0
-        inCollection = 1 if request.form.get('inCollection') else 0
+   if request.method == 'POST':
+       title = request.form.get('title')
+       author = request.form.get('author')
+       genre = request.form.get('genre')
+       image = request.form.get('image') or book_data.image  # Keep existing image if no new one is provided
 
-        # Update book details
-        book_data.title = title
-        book_data.author = author
-        book_data.genre = genre
-        book_data.image = image
+       if not title or not author or not genre:
+           return "No spaces can be empty", 400
 
-        # Update bookshelf details
-        book_shelf_data.hasRead = hasRead
-        book_shelf_data.inCollection = inCollection
+       hasRead = 1 if request.form.get('hasRead') else 0
+       inCollection = 1 if request.form.get('inCollection') else 0
 
-        db.session.commit()
+       # Update book details
+       book_data.title = title
+       book_data.author = author
+       book_data.genre = genre
+       book_data.image = image
 
-        return redirect(url_for('userBookShelf'))
+       # Update bookshelf details
+       book_shelf_data.hasRead = hasRead
+       book_shelf_data.inCollection = inCollection
 
-    book_dict = {
-        "title": book_data.title,
-        "author": book_data.author,
-        "genre": book_data.genre,
-        "image": book_data.image,
-        "hasRead": bool(book_shelf_data.hasRead),
-        "inCollection": bool(book_shelf_data.inCollection),
-    }
+       db.session.commit()
 
-    return render_template(
-        'edit_book.html',
-        book=book_dict,
-    )
+       return redirect(url_for('userBookShelf'))
+
+   book_dict = {
+       "title": book_data.title,
+       "author": book_data.author,
+       "genre": book_data.genre,
+       "image": book_data.image,
+       "hasRead": bool(book_shelf_data.hasRead),
+       "inCollection": bool(book_shelf_data.inCollection),
+   }
+
+   return render_template(
+       'edit_book.html',
+       book=book_dict,
+   )
 
 @app.route('/delete_book/<int:book_id>', methods=['POST'])
 def delete_book(book_id):
