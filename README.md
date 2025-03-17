@@ -76,5 +76,9 @@ python app.py
 ## <h2 align="center"> Screenshots </h2>
 
 ![home login page](screenshots/Home.jpeg)
-
+![create account page](screenshots/CreateAccount.jpeg)
+![bookshelf page](screenshots/myBookshelf.jpeg)
+![add book page](screenshots/addbook.jpeg)
+![edit book page](screenshots/Editbook.jpeg)
+![search book page](screenshots/searchbook.jpeg)
 
