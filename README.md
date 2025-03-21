@@ -8,7 +8,7 @@
 
 Stay on top of your reading progress with our **intuitive app**.  
 Add books to your collection, categorize them by reading status, and view essential **details** like titles, authors,
-and descriptions.  
+and reading status.  
 Easily **search** for specific books, and update your collection to reflect **new reads** or books you no longer own.
 
 ---
@@ -78,7 +78,7 @@ python app.py
 ![home login page](screenshots/Home.jpeg)
 ![create account page](screenshots/CreateAccount.jpeg)
 ![bookshelf page](screenshots/myBookshelf.jpeg)
-![add book page](screenshots/addbook.jpeg)
+![add book page](screenshots/addBook.jpeg)
 ![edit book page](screenshots/Editbook.jpeg)
 ![search book page](screenshots/searchbook.jpeg)
 
