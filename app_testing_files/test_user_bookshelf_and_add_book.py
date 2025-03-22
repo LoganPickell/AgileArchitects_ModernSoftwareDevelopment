@@ -1,6 +1,6 @@
-
 import sys
 import os
+import secrets
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + "/.."))
 from flask import session
 
@@ -9,7 +9,6 @@ from app import app, db, User, Book,BookShelf
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
-
 
 
 @pytest.fixture
@@ -84,3 +83,49 @@ def test_bookshelf_entry_created(test_client):
     assert bookshelf_entry is not None
     assert bookshelf_entry.hasRead == 1
     assert bookshelf_entry.inCollection == 1
+
+
+#User Bookshelf
+def test_user_bookshelf_normal(test_client):
+    """Test displaying the user's bookshelf with books that can be deleted."""
+    user = User(username=f"testuser")
+    db.session.add(user)
+    db.session.commit()
+
+    book1 = Book(title="Book One", author="John Doe", genre="Fiction", image="/static/assets/img/DefaultBookCover.jpg")
+    book2 = Book(title="Book Two", author="Jane Doe", genre="Non-Fiction",
+                 image="/static/assets/img/DefaultBookCover.jpg")
+
+    db.session.add_all([book1, book2])
+    db.session.commit()
+
+    shelf_entry1 = BookShelf(book_id=book1.book_id, user_id=user.id, hasRead=1, inCollection=1)
+    shelf_entry2 = BookShelf(book_id=book2.book_id, user_id=user.id, hasRead=0, inCollection=1)
+
+    db.session.add_all([shelf_entry1, shelf_entry2])
+    db.session.commit()
+
+    with test_client.session_transaction() as session:
+        session['user_id'] = user.id
+
+    db.session.delete(book1)
+    db.session.commit()
+
+    response = test_client.get('/userBookShelf')
+
+    assert response.status_code == 200
+    assert b"Book Two" in response.data
+    assert b"Jane Doe" in response.data
+
+def test_user_bookshelf_empty(test_client):
+    """Test displaying the user's bookshelf without books."""
+    user = User(username=f"testuser")
+    db.session.add(user)
+    db.session.commit()
+
+    with test_client.session_transaction() as session:
+        session['user_id'] = user.id
+
+    response = test_client.get('/userBookShelf')
+
+    assert response.status_code == 200
