@@ -77,7 +77,7 @@ python app.py
 
 ![home login page](screenshots/Home.jpeg)
 ![create account page](screenshots/CreateAccount.jpeg)
-![bookshelf page](screenshots/myBookshelf.jpeg)
+![bookshelf page](screenshots/myBookShelf.jpeg)
 ![add book page](screenshots/addBook.jpeg)
 ![edit book page](screenshots/Editbook.jpeg)
 ![search book page](screenshots/searchbook.jpeg)
