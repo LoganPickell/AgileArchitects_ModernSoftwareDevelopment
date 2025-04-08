@@ -14,8 +14,6 @@ def create_app(test_config=None):
                 template_folder=os.path.join(base_dir, 'templates'),
                 static_folder=os.path.join(base_dir, 'static')
                 )
-    print(f"Template Folder: {app.template_folder}")
-    print(f"Static Folder: {app.static_folder}")
     app.config['SECRET_KEY'] = secrets.token_hex(16)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
