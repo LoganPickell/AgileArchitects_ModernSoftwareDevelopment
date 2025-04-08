@@ -84,6 +84,26 @@ def test_bookshelf_entry_created(test_client):
     assert bookshelf_entry.hasRead == 1
     assert bookshelf_entry.inCollection == 1
 
+def test_add_book_default_image(test_client):
+    with test_client.session_transaction() as sess:
+        sess['user_id'] = 1
+        sess['username'] = 'test_user'
+
+    test_client.post('/add_book', data={
+        'title': 'Image Test Book',
+        'author': 'Img Author',
+        'genre': 'Horror',
+        'cover_image': '',  # No image provided
+        'hasRead': 'on',
+        'inCollection': ''
+    })
+
+    book = Book.query.filter_by(title="Image Test Book").first()
+    assert book is not None
+    assert book.image == '/static/assets/img/DefaultBookCover.jpg'
+
+
+
 
 #User Bookshelf
 def test_user_bookshelf_normal(test_client):
