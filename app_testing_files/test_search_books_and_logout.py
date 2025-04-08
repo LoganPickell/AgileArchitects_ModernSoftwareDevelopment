@@ -1,19 +1,22 @@
-import os
-import sys
 import pytest
-import requests
-from unittest.mock import patch
-from flask import Flask
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app import app
+import os
+from app import create_app, db
+from app.models import BookShelf, Book, User
 
 
 @pytest.fixture
-def client():
-    app.config["TESTING"] = True
-    with app.test_client() as client:
-        yield client
+def test_client():
+    # Ensure correct path for templates and static folder
+    app = create_app({
+        'TESTING': True,
+        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+        'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+        'TEMPLATES_AUTO_RELOAD': True
+    })
+
+    with app.app_context():
+        db.create_all()  # Ensure database tables are created
+        yield app.test_client()  # Provide test client to the t
 
 
 # Testing for the logout endpoint

@@ -1,28 +1,22 @@
-import sys
-import os
-import secrets
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + "/.."))
-from flask import session
-
 import pytest
-from app import app, db, User, Book,BookShelf
-
-import logging
-logging.basicConfig(level=logging.DEBUG)
+import os
+from app import create_app, db
+from app.models import BookShelf, Book, User
 
 
 @pytest.fixture
 def test_client():
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    app.config['TESTING'] = True
-    print(f"Before test: {app.config['SQLALCHEMY_DATABASE_URI']}")  # Debug
+    # Ensure correct path for templates and static folder
+    app = create_app({
+        'TESTING': True,
+        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+        'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+        'TEMPLATES_AUTO_RELOAD': True
+    })
+
     with app.app_context():
-        db.create_all()
-        print(f"After test: {app.config['SQLALCHEMY_DATABASE_URI']}")  # Debug
-        yield app.test_client()
-        db.drop_all()
-
-
+        db.create_all()  # Ensure database tables are created
+        yield app.test_client()  # Provide test client to the t
 
 #Add Book
 def test_add_book_get(test_client):
