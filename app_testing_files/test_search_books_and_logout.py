@@ -49,7 +49,20 @@ def test_search_books_results(client):
     assert '<div class="book-card2">' in response.data.decode()
     assert '<div class="book-info">' in response.data.decode()
 
+def test_add_book(client):
+    with client.session_transaction() as sess:
+        sess['user_id'] = 1  # Fake user ID
+        sess['username'] = 'test_user'
 
+
+    response = client.post('/add_book', data={
+        'title': 'test',
+        'author': 'Test author',
+        'genre': 'Fiction',
+        'hasRead' : 'on',
+        'inCollection': 'on'
+    }, follow_redirects=True)
+    assert response.status_code == 200
 
 
 
