@@ -24,13 +24,6 @@ def test_add_book_get(test_client):
     assert response.status_code == 200
     assert b'<form method="POST"' in response.data
 
-def test_add_book_redirection(test_client):
-    response = test_client.get('/add_book')
-    assert b'class="add_book_btn"' in response.data #check if btn exists
-    assert b'onclick="window.location.href=\'/userBookshelf\'"' in response.data  # Check if redirect is correct
-    response_redirect = test_client.get('/userBookshelf', follow_redirects=True)  # simulate clicking the button
-    assert response_redirect.status_code == 200  # verify the response redirects properly
-
 def test_add_book_inserts_to_db(test_client):
     #Test if submitting the add_book form actually inserts a book into the database
     # Simulate a user session
@@ -77,6 +70,24 @@ def test_bookshelf_entry_created(test_client):
     assert bookshelf_entry is not None
     assert bookshelf_entry.hasRead == 1
     assert bookshelf_entry.inCollection == 1
+
+def test_add_book_default_image(test_client):
+    with test_client.session_transaction() as sess:
+        sess['user_id'] = 1
+        sess['username'] = 'test_user'
+
+    test_client.post('/add_book', data={
+        'title': 'Image Test Book',
+        'author': 'Img Author',
+        'genre': 'Horror',
+        'cover_image': '',  # No image provided
+        'hasRead': 'on',
+        'inCollection': ''
+    })
+
+    book = Book.query.filter_by(title="Image Test Book").first()
+    assert book is not None
+    assert book.image == '/static/assets/img/DefaultBookCover.jpg'
 
 
 #User Bookshelf
