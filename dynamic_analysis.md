@@ -51,3 +51,5 @@ To use snakeviz after profiling, enter:
     snakeviz ./profiles/<enter the filename to view>
 
 Example snakeviz image:
+
+![snakevix image](screenshots/snakeviz_example.png)
