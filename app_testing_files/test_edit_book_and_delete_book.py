@@ -156,3 +156,68 @@ def test_edit_book_deleted(test_client):
 
    assert response.status_code == 404
    assert b'Book not found' in response.data
+
+
+#  -------
+# Delete book tests
+   def create_book(book_id=22, title='Test', author='Author', genre='Genre', image='img.jpg'):
+       book22 = Book(book_id=book_id, title=title, author=author, genre=genre, image=image)
+       db.session.add(book)
+       db.session.commit()
+       return book
+
+   def create_bookshelf_entry(user_id, book_id, hasRead=False, inCollection=True, isFavorite=False):
+       entry = BookShelf(user_id=user_id, book_id=book_id, hasRead=hasRead, inCollection=inCollection,
+                         isFavorite=isFavorite)
+       db.session.add(entry)
+       db.session.commit()
+       return entry
+
+
+   def test_delete_book_success(client):
+       with client.session_transaction() as sess:
+           sess['user_id'] = 22
+           sess['username'] = 'tester'
+
+       book22 = create_book(22)
+       create_bookshelf_entry(user_id=22, book_id=22)
+
+       response = client.post('/delete_book/1', follow_redirects=True)
+
+       assert response.status_code == 200
+       assert Book.Session.get(22) is None
+       assert BookShelf.Session.filter_by(book_id=22).first() is None
+
+   def test_delete_book_not_exists(client):
+       with client.session_transaction() as sess:
+           sess['user_id'] = 22
+           sess['username'] = 'tester'
+
+       response = client.post('/delete_book/999', follow_redirects=True)
+
+       assert response.status_code == 200  # Still redirects
+       assert Book.Session.get(999) is None
+
+   def test_delete_book_no_bookshelf_entry(client):
+       with client.session_transaction() as sess:
+           sess['user_id'] = 1
+           sess['username'] = 'tester'
+
+       create_book(55)
+
+       response = client.post('/delete_book/55', follow_redirects=True)
+
+       assert response.status_code == 200
+       assert Book.Session.get(55) is None
+
+   def test_delete_book_no_book_but_bookshelf_entry_exists(client):
+       with client.session_transaction() as sess:
+           sess['user_id'] = 1
+           sess['username'] = 'tester'
+
+       create_bookshelf_entry(user_id=23, book_id=33)
+
+       response = client.post('/delete_book/33', follow_redirects=True)
+
+       assert response.status_code == 200
+       assert BookShelf.Session.filter_by(book_id=33).first() is None
