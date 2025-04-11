@@ -53,3 +53,6 @@ To use snakeviz after profiling, enter:
 Example snakeviz image:
 
 ![snakevix image](screenshots/snakeviz_example.png)
+
+
+
