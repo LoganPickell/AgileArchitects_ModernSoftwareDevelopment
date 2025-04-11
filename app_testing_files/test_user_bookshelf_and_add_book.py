@@ -200,3 +200,26 @@ def test_user_bookshelf_multiple(test_client):
     assert b"Test Book 7" in response.data
     assert b"Test Book 8" in response.data
     assert b"Test Book 9" in response.data
+
+def test_user_bookshelf_lengthy(test_client):
+    """Test displaying the user's bookshelf with long words in all fields of a book."""
+    user = User(username=f"testuser")
+    db.session.add(user)
+    db.session.commit()
+
+    with test_client.session_transaction() as session:
+        session["user_id"] = user.id
+
+    long_word = 'L' * 300  # 300 characters long, no spaces
+    test_client.post('/add_book', data={
+        'title': long_word,
+        'author': long_word,
+        'genre': long_word,
+        'description': long_word
+     }, follow_redirects=True)
+
+    response = test_client.get('/userBookShelf')
+
+    # Makes sure the long word appears in the HTML
+    html = response.get_data(as_text=True)
+    assert long_word in html

@@ -337,9 +337,9 @@ button:hover {
     color: #333;
     padding: 5px;
     width: 100%;
-    white-space: wrap;
-    overflow: visible;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .book-info h3 {
