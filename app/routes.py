@@ -1,8 +1,8 @@
+import re
+import requests
 from flask import render_template, request, redirect, url_for, flash, session
 from .models import User, Book, BookShelf
 from . import db
-import re
-import requests
 
 
 def register_routes(app):
@@ -49,13 +49,13 @@ def register_routes(app):
 
     @app.route('/create_account', methods=['GET', 'POST'])
     def create_account():
-        error = None
         if request.method == 'POST':
             username = request.form['username'].lower()
 
             if not username:
                 flash("Username cannot be empty", "error")
-                return render_template('create_account.html', error="Username cannot be empty"), 400
+                return render_template('create_account.html',
+                                       error="Username cannot be empty"), 400
             try:
                 valid_new_user = username_validation(username)
                 new_user = User(username=valid_new_user)
@@ -78,15 +78,16 @@ def register_routes(app):
         if user_id is None:
             return redirect(url_for('home'))
 
-        books = db.session.query(
+        books = (db.session.query(
             Book.title, Book.author, Book.genre, Book.image, Book.book_id,
             BookShelf.hasRead, BookShelf.inCollection, BookShelf.isFavorite
-        ).join(BookShelf, Book.book_id == BookShelf.book_id).filter(BookShelf.user_id == user_id).all()
+            ).join(BookShelf, Book.book_id == BookShelf.book_id).filter
+        (BookShelf.user_id == user_id).all())
 
         shelf_size = 8
         shelves = [books[i:i + shelf_size] for i in range(0, len(books), shelf_size)]
-
-        return render_template('userBookShelf.html', username=username, shelves=shelves, shelf_size=shelf_size)
+        return render_template('userBookShelf.html',
+            username=username, shelves=shelves, shelf_size=shelf_size)
 
     @app.route('/add_book', methods=['GET', 'POST'])
     def add_book():
@@ -96,8 +97,6 @@ def register_routes(app):
             genre = request.form.get('genre')
             image = request.form.get('cover_image') or '/static/assets/img/DefaultBookCover.jpg'
             user_id = session.get('user_id')
-            username = session.get('username')
-
             hasRead = 1 if request.form.get('hasRead') else 0
             inCollection = 1 if request.form.get('inCollection') else 0
 
@@ -105,7 +104,8 @@ def register_routes(app):
             db.session.add(book)
             db.session.commit()
 
-            book_shelf = BookShelf(book_id=book.book_id, user_id=user_id, hasRead=hasRead, inCollection=inCollection)
+            book_shelf = BookShelf(book_id=book.book_id, user_id=user_id,
+             hasRead=hasRead, inCollection=inCollection)
             db.session.add(book_shelf)
             db.session.commit()
 
@@ -124,9 +124,11 @@ def register_routes(app):
             flash("You must be logged in to edit a book.", "error")
             return redirect(url_for('home')), 302
 
-        # Fetch book details along with hasRead and inCollection from BookShelf
-        book = db.session.query(Book, BookShelf).join(BookShelf, Book.book_id == BookShelf.book_id).filter(
-            Book.book_id == book_id, BookShelf.user_id == user_id).first()
+        # Fetch book details along with hasRead
+        # and inCollection from BookShelf
+        book = db.session.query(Book, BookShelf).join(BookShelf, Book.book_id
+            == BookShelf.book_id).filter(Book.book_id == book_id,
+            BookShelf.user_id == user_id).first()
 
         if not book:
             # Return 403 if the book does not belong to the user
@@ -141,11 +143,9 @@ def register_routes(app):
             title = request.form.get('title')
             author = request.form.get('author')
             genre = request.form.get('genre')
-            image = request.form.get('image') or book_data.image  # Keep existing image if no new one is provided
-
+            image = request.form.get('image') or book_data.image
             if not title or not author or not genre:
                 return "No spaces can be empty", 400
-
             hasRead = 1 if request.form.get('hasRead') else 0
             inCollection = 1 if request.form.get('inCollection') else 0
 
@@ -203,15 +203,14 @@ def register_routes(app):
             query = request.form.get('query', '').strip()
             if query:
                 try:
-                    response = requests.get(f'https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=10',
-                                            timeout=5)
+                    response = requests.get(f'https://www.googleapis.com/books/v1/volumes?q='
+                                            f'{query}&maxResults=10', timeout=5)
                     response.raise_for_status()
                     data = response.json()
                     books = data.get('items', [])
 
                     for book in books:
                         volume_info = book.get('volumeInfo', {})
-
                         title = volume_info.get('title', 'No Title Available')
                         authors = ', '.join(volume_info.get('authors', ['Unknown Author']))
                         genre = ', '.join(volume_info.get('categories', ['Unknown Genre']))
@@ -228,7 +227,8 @@ def register_routes(app):
                 except requests.RequestException as e:
                     print(f"Error fetching books: {e}")
 
-        return render_template('search_books.html', books=book_details, query=query)
+        return render_template('search_books.html',
+                               books=book_details, query=query)
 
     @app.route('/logout')
     def logout():
@@ -243,7 +243,8 @@ def register_routes(app):
         if user_id is None:
             return redirect(url_for('home'))
 
-        book_shelf_entry = BookShelf.query.filter_by(book_id=book_id, user_id=user_id).first()
+        book_shelf_entry = (BookShelf.query.filter_by
+                            (book_id=book_id, user_id=user_id).first())
 
         if book_shelf_entry:
             book_shelf_entry.isFavorite = not book_shelf_entry.isFavorite
