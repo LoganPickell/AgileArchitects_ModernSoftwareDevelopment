@@ -1,7 +1,6 @@
 import pytest
-import os
 from app import create_app, db
-from app.models import BookShelf, Book, User
+from app.models import User
 
 
 @pytest.fixture
@@ -19,6 +18,12 @@ def test_client():
         yield app.test_client()  # Provide test client to the t
 
 def test_home_get_rendering_elements(test_client):
+    """
+       Test GET / returns 200 and contains form and create account button.
+
+       Args:
+           test_client: Flask test client.
+       """
     response = test_client.get("/")
     assert response.status_code == 200
     assert b'<form method="POST">' in response.data
@@ -26,6 +31,12 @@ def test_home_get_rendering_elements(test_client):
 
 
 def test_home_create_account_redirect(test_client):
+    """
+        Test that the create account button exists and redirects correctly.
+
+        Args:
+            test_client: Flask test client.
+    """
     response = test_client.get('/')
     assert b'class="createAccBtn"' in response.data
     assert b'onclick="window.location.href=\'/create_account\'"' in response.data
@@ -34,6 +45,12 @@ def test_home_create_account_redirect(test_client):
 
 
 def test_valid_login(test_client):
+    """
+        Test that a valid username logs in successfully and sets session variables.
+
+        Args:
+            test_client: Flask test client.
+    """
     with test_client.application.app_context():
         user = User(username='testuser')
         db.session.add(user)
@@ -48,6 +65,12 @@ def test_valid_login(test_client):
 
 
 def test_invalid_login(test_client):
+    """
+        Test that login with an invalid username fails and shows error message.
+
+        Args:
+            test_client: Flask test client.
+        """
     response = test_client.post('/', data={'username': 'nonexistent'}, follow_redirects=True)
     assert response.status_code == 200
     assert b"Invalid username. Please try again." in response.data
@@ -57,13 +80,18 @@ def test_invalid_login(test_client):
 
 
 def test_session_persistence(test_client):
+    """
+        Test that the session retains the username after login.
+
+        Args:
+            test_client: Flask test client.
+        """
     with test_client.application.app_context():
         user = User(username='sessionuser')
         db.session.add(user)
         db.session.commit()
 
     test_client.post('/', data={'username': 'sessionuser'}, follow_redirects=True)
-
     with test_client.session_transaction() as sess:
         assert sess.get('username') == 'sessionuser'
 
