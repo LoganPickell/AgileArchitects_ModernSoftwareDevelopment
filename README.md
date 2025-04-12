@@ -68,6 +68,7 @@ python app.py
 #### 3. Look at what's in your bookshelf! 👀
 * You may edit book details by clicking the pencil icon ✏️
 * You may delete books from your bookshelf by clicking the trash icon 🗑️
+* You may favorite books from your bookshelf by clicking the heart icon ❤️
 #### 4. Ensure you logout! 😁
 * Simply go to your bookshelf and press "Logout" next to the welcome message
 
