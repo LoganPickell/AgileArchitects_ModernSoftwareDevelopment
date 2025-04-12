@@ -4,21 +4,6 @@ from app import create_app, db
 from app.models import BookShelf, Book, User
 
 
-@pytest.fixture
-def test_client():
-    # Ensure correct path for templates and static folder
-    app = create_app({
-        'TESTING': True,
-        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
-        'SQLALCHEMY_TRACK_MODIFICATIONS': False,
-        'TEMPLATES_AUTO_RELOAD': True
-    })
-
-    with app.app_context():
-        db.create_all()  # Ensure database tables are created
-        yield app.test_client()  # Provide test client to the t
-
-
 # Testing for the logout endpoint
 def test_logout(client):
     response = client.get("/logout")  # Test the logout route on the app
@@ -53,8 +38,6 @@ def test_add_book(client):
     with client.session_transaction() as sess:
         sess['user_id'] = 1  # Fake user ID
         sess['username'] = 'test_user'
-
-
     response = client.post('/add_book', data={
         'title': 'test',
         'author': 'Test author',
