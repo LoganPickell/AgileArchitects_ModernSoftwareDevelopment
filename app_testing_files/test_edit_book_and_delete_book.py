@@ -1,10 +1,14 @@
+"""Testing the edit_book and delete_book endpoints in the app."""
+
+# pylint: disable=bad-indentation
 import pytest
-import os
 from app import create_app, db
 from app.models import BookShelf, Book, User
 
-@pytest.fixture
-def test_client():
+@pytest.fixture(name='test_client')
+@pytest.mark.usefixtures('test_client')
+def fixture_test_client():
+    """Sets up pytest fixture for the test client."""
     # Ensure correct path for templates and static folder
     app = create_app({
         'TESTING': True,
@@ -20,11 +24,12 @@ def test_client():
 # Edit Book
 def test_edit_book_normal(test_client):
    """Test editing a book's info correctly."""
-   user = User(username=f"testuser")
+   user = User(username="testuser")
    db.session.add(user)
    db.session.commit()
 
-   book = Book(title="Test Book", author="John Doe", genre="Fiction", image="/static/assets/img/DefaultBookCover.jpg")
+   book = Book(title="Test Book", author="John Doe", genre="Fiction",
+               image="/static/assets/img/DefaultBookCover.jpg")
    db.session.add(book)
    db.session.commit()
 
@@ -56,11 +61,12 @@ def test_edit_book_normal(test_client):
 
 def test_edit_book_empty(test_client):
    """Test editing a book's info with empty input."""
-   user = User(username=f"testuser")
+   user = User(username="testuser")
    db.session.add(user)
    db.session.commit()
 
-   book = Book(title="Test Book", author="John Doe", genre="Fiction", image="/static/assets/img/DefaultBookCover.jpg")
+   book = Book(title="Test Book", author="John Doe", genre="Fiction",
+               image="/static/assets/img/DefaultBookCover.jpg")
    db.session.add(book)
    db.session.commit()
 
@@ -85,16 +91,17 @@ def test_edit_book_empty(test_client):
 
 def test_edit_book_unauthorized(test_client):
    """Test editing a different user's book info."""
-   user_1 = User(username=f"testuser_1")
-   user_2 = User(username=f"testuser_2")
-   db.session.add_all([user_1, user_2])
+   users = [User(username=f"testuser{i}") for i in range(1, 3)]
+   db.session.add_all(users)
    db.session.commit()
 
-   book = Book(title="Test Book", author="John Doe", genre="Fiction", image="/static/assets/img/DefaultBookCover.jpg")
+   book = Book(title="Test Book", author="John Doe", genre="Fiction",
+               image="/static/assets/img/DefaultBookCover.jpg")
    db.session.add(book)
    db.session.commit()
 
-   book_shelf_entry = BookShelf(book_id=book.book_id, user_id=user_1.id, hasRead=0, inCollection=0)
+   book_shelf_entry = BookShelf(book_id=book.book_id, user_id=users[0].id,
+                                hasRead=0, inCollection=0)
    db.session.add(book_shelf_entry)
    db.session.commit()
 
@@ -107,7 +114,7 @@ def test_edit_book_unauthorized(test_client):
    }
 
    with test_client.session_transaction() as session:
-       session['user_id'] = user_2.id
+       session['user_id'] = users[1].id
    response = test_client.post(f'/edit_book/{book.book_id}', data=unauthorized_data)
 
    assert response.status_code == 403
@@ -116,7 +123,7 @@ def test_edit_book_unauthorized(test_client):
 
 def test_edit_book_nonexistent(test_client):
    """Test editing a nonexistent book."""
-   user = User(username=f"testuser")
+   user = User(username="testuser")
    db.session.add(user)
    db.session.commit()
 
@@ -125,18 +132,20 @@ def test_edit_book_nonexistent(test_client):
    with test_client.session_transaction() as session:
        session['user_id'] = user.id
 
-   response = test_client.post(f'/edit_book/{nonexistent_book_id}', data={'title': 'Nonexistent Book'})
+   response = test_client.post(f'/edit_book/{nonexistent_book_id}',
+                               data={'title': 'Nonexistent Book'})
 
    assert response.status_code == 404
    assert b'Book not found' in response.data
 
 def test_edit_book_deleted(test_client):
    """Test editing a deleted book."""
-   user = User(username=f"testuser")
+   user = User(username="testuser")
    db.session.add(user)
    db.session.commit()
 
-   book = Book(title="Test Book", author="John Doe", genre="Fiction", image="/static/assets/img/DefaultBookCover.jpg")
+   book = Book(title="Test Book", author="John Doe", genre="Fiction",
+               image="/static/assets/img/DefaultBookCover.jpg")
    db.session.add(book)
    db.session.commit()
 
