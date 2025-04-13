@@ -166,7 +166,6 @@ def test_edit_book_deleted(test_client):
    assert response.status_code == 404
    assert b'Book not found' in response.data
 
-
 #  -------
 # Delete book tests
    def create_book(book_id=22, title='Test', author='Author', genre='Genre', image='img.jpg'):
