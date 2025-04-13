@@ -70,7 +70,6 @@ def test_toggle_favorite_multiple(test_client):
     db.session.add_all(shelf_entries)
     db.session.commit()
 
-
     with test_client.session_transaction() as session:
         session['user_id'] = user.id
 
