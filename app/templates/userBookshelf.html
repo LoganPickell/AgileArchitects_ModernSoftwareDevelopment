@@ -57,7 +57,7 @@ function toggleFavorite(bookId) {
     fetch(`/toggle_favorite/${bookId}`, { method: 'POST' })
         .then(response => {
             if (response.ok) {
-                location.reload();  // Refreshes the page to show updated favorite status
+                location.reload();  // Refreshes the page to show updated favorite status.
             }
         })
         .catch(error => console.error("Error toggling favorite:", error));
