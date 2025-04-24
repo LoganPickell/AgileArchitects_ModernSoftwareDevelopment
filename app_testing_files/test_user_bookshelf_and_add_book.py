@@ -5,23 +5,22 @@ import pytest
 from app import create_app, db
 from app.models import BookShelf, Book, User
 
-@pytest.fixture(name='test_client')
-@pytest.mark.usefixtures('test_client')
-def fixture_test_client():
-    """Sets up pytest fixture for the test client."""
-    # Ensure correct path for templates and static folder
+
+@pytest.fixture
+def test_client():
     app = create_app({
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
-        'TEMPLATES_AUTO_RELOAD': True
+        'TEMPLATES_AUTO_RELOAD': True,
     })
 
     with app.app_context():
-        db.create_all()  # Ensure database tables are created
-        yield app.test_client()  # Provide test client to the t
+        db.create_all()
+        yield app.test_client()
 
-#Add Book Tests
+
+# Add Book Tests
 def test_add_book_get(test_client):
     """
         Test that the GET request to /add_book returns the form.
@@ -32,6 +31,7 @@ def test_add_book_get(test_client):
     response = test_client.get('/add_book')
     assert response.status_code == 200
     assert b'<form method="POST"' in response.data
+
 
 def test_add_book_inserts_to_db(test_client):
     """
@@ -61,6 +61,7 @@ def test_add_book_inserts_to_db(test_client):
     assert book.author == "DB Author"
     assert book.genre == "Sci-Fi"
 
+
 def test_bookshelf_entry_created(test_client):
     """
        Test that adding a book also creates a corresponding bookshelf entry.
@@ -89,6 +90,7 @@ def test_bookshelf_entry_created(test_client):
     assert bookshelf_entry.hasRead == 1
     assert bookshelf_entry.inCollection == 1
 
+
 def test_add_book_default_image(test_client):
     """
         Test that a default image is set when no cover image is provided.
@@ -114,7 +116,7 @@ def test_add_book_default_image(test_client):
     assert book.image == '/static/assets/img/DefaultBookCover.jpg'
 
 
-#User Bookshelf
+# User Bookshelf
 def test_user_bookshelf_normal(test_client):
     """Test displaying the user's bookshelf with books that can be deleted."""
     user = User(username="testuser")
@@ -131,7 +133,8 @@ def test_user_bookshelf_normal(test_client):
 
     shelf_entry1 = BookShelf(book_id=book1.book_id, user_id=user.id,
                              hasRead=1, inCollection=1, isFavorite=0)
-    shelf_entry2 = BookShelf(book_id=book2.book_id, user_id=user.id, hasRead=0, inCollection=1, isFavorite=0)
+    shelf_entry2 = BookShelf(book_id=book2.book_id, user_id=user.id,
+                             hasRead=0, inCollection=1, isFavorite=0)
 
     db.session.add_all([shelf_entry1, shelf_entry2])
     db.session.commit()
@@ -148,6 +151,7 @@ def test_user_bookshelf_normal(test_client):
     assert b"Book Two" in response.data
     assert b"Jane Doe" in response.data
 
+
 def test_user_bookshelf_empty(test_client):
     """Test displaying the user's bookshelf without books."""
     user = User(username="testuser")
@@ -160,6 +164,7 @@ def test_user_bookshelf_empty(test_client):
     response = test_client.get('/userBookShelf')
 
     assert response.status_code == 200
+
 
 def test_user_bookshelf_multiple(test_client):
     """Test displaying the user's bookshelf with multiple books."""
@@ -192,6 +197,7 @@ def test_user_bookshelf_multiple(test_client):
     assert b"Test Book 7" in response.data
     assert b"Test Book 8" in response.data
     assert b"Test Book 9" in response.data
+
 
 def test_user_bookshelf_lengthy(test_client):
     """Test displaying the user's bookshelf with long words in all fields of a book."""

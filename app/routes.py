@@ -81,13 +81,13 @@ def register_routes(app):
         books = (db.session.query(
             Book.title, Book.author, Book.genre, Book.image, Book.book_id,
             BookShelf.hasRead, BookShelf.inCollection, BookShelf.isFavorite
-            ).join(BookShelf, Book.book_id == BookShelf.book_id).filter
-        (BookShelf.user_id == user_id).all())
+        ).join(BookShelf, Book.book_id == BookShelf.book_id).filter
+                 (BookShelf.user_id == user_id).all())
 
         shelf_size = 8
         shelves = [books[i:i + shelf_size] for i in range(0, len(books), shelf_size)]
         return render_template('userBookShelf.html',
-            username=username, shelves=shelves, shelf_size=shelf_size)
+                               username=username, shelves=shelves, shelf_size=shelf_size)
 
     @app.route('/add_book', methods=['GET', 'POST'])
     def add_book():
@@ -105,7 +105,7 @@ def register_routes(app):
             db.session.commit()
 
             book_shelf = BookShelf(book_id=book.book_id, user_id=user_id,
-             hasRead=hasRead, inCollection=inCollection)
+                                   hasRead=hasRead, inCollection=inCollection)
             db.session.add(book_shelf)
             db.session.commit()
 
@@ -126,13 +126,16 @@ def register_routes(app):
 
         # Fetch book details along with hasRead
         # and inCollection from BookShelf
-        book = db.session.query(Book, BookShelf).join(BookShelf, Book.book_id
-            == BookShelf.book_id).filter(Book.book_id == book_id,
-            BookShelf.user_id == user_id).first()
+        book = db.session.query(Book, BookShelf).join(
+            BookShelf, Book.book_id == BookShelf.book_id
+        ).filter(
+            Book.book_id == book_id,
+            BookShelf.user_id == user_id
+        ).first()
 
         if not book:
             # Return 403 if the book does not belong to the user
-            book_exists = Book.query.get(book_id)
+            book_exists = db.session.get(Book, book_id)
             if book_exists:
                 return "You do not have permission to edit this book", 403
             return "Book not found", 404  # Return 404 if the book does not exist
@@ -186,7 +189,7 @@ def register_routes(app):
         if book_shelf_entry:
             db.session.delete(book_shelf_entry)
 
-        book = Book.query.get(book_id)
+        book = db.session.get(Book, book_id)
         if book:
             db.session.delete(book)
 

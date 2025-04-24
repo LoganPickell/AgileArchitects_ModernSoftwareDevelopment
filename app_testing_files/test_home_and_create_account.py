@@ -5,7 +5,6 @@ from app.models import User
 
 @pytest.fixture
 def test_client():
-    # Ensure correct path for templates and static folder
     app = create_app({
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
@@ -14,8 +13,9 @@ def test_client():
     })
 
     with app.app_context():
-        db.create_all()  # Ensure database tables are created
-        yield app.test_client()  # Provide test client to the t
+        db.create_all()
+        yield app.test_client()
+
 
 def test_home_get_rendering_elements(test_client):
     """

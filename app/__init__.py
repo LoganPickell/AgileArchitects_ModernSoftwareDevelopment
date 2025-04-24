@@ -8,7 +8,8 @@ db = SQLAlchemy()
 
 def create_app(test_config=None):
     # Get the absolute paths of the 'templates' and 'static' directories
-    base_dir = os.path.abspath(os.path.dirname(__file__))  # Path of the current file (run.py or app.py)
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    # Path of the current file (run.py or app.py)
 
     app = Flask(__name__,
                 template_folder=os.path.join(base_dir, 'templates'),
@@ -23,7 +24,6 @@ def create_app(test_config=None):
 
     db.init_app(app)
 
-    from .models import User, Book, BookShelf
     with app.app_context():
         db.create_all()
 
