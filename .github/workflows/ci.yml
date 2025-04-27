@@ -20,9 +20,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Print working directory
-      run: pwd
-
     - name: Lint with flake8
       run: |
         flake8 .
@@ -30,4 +27,5 @@ jobs:
     - name: Run pytest
       run: |
         pytest
+        working-directory: ./app
 
