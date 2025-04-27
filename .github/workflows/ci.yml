@@ -26,6 +26,7 @@ jobs:
 
     - name: Run pytest
       run: |
+        cd ..
         cd app
         pytest
         
