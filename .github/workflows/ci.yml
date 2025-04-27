@@ -21,7 +21,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: List files in the directory
-      run: ls -R /home/runner/work/AgileArchitects_ModernSoftwareDevelopment/AgileArchitects_ModernSoftwareDevelopment
+      run: ls -R /home/runner/work/AgileArchitects_ModernSoftwareDevelopment/AgileArchitects_ModernSoftwareDevelopment/app/templates
 
     - name: Lint with flake8
       run: |

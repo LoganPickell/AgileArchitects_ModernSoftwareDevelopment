@@ -8,7 +8,6 @@ def client():
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
-        'TEMPLATES_AUTO_RELOAD': True,
     })
 
     with app.test_client() as client:
