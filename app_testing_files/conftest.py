@@ -9,7 +9,7 @@ def client():
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
-        'template_folder': os.path.join(os.path.dirname(__file__), 'app', 'templates'),
+        'TEMPLATES_AUTO_RELOAD': True,
     })
 
     with app.test_client() as client:
