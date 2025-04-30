@@ -26,3 +26,27 @@ jobs:
     - name: Run pytest
       run: |
         pytest
+
+    - name: SSH into server and deploy
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          set -e
+ 
+          echo "Stopping all containers..."
+          sudo docker ps -q | xargs -r sudo docker stop
+          sudo docker ps -a -q | xargs -r sudo docker rm
+ 
+          echo "Cloning latest repo..."
+          rm -rf /tmp/deploy-repo
+          git clone https://github.com/LoganPickell/AgileArchitects_ModernSoftwareDevelopment.git /tmp/deploy-repo
+ 
+          echo "Building Docker image..."
+          cd /tmp/deploy-repo
+          sudo docker build -t cozycorner .
+ 
+          echo "Running container..."
+          sudo docker run -d --name myapp-container -p 80:5000 cozycorner
