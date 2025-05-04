@@ -83,3 +83,20 @@ python app.py
 ![edit book page](screenshots/Editbook.jpeg)
 ![search book page](screenshots/searchbook.jpeg)
 
+# GitHub CD Pipeline with AWS EC2 and Docker
+
+## 1. Launch & Access AWS EC2 Instance
+
+### a. Launch an EC2 Instance
+- Launch an EC2 instance using **Ubuntu 22.04 LTS**.
+- Configure the **security group** to allow:
+  - SSH (Port 22)
+  - HTTP (Port 80)
+  - Application ports (e.g., 8000)
+
+### b. SSH into the Instance
+```bash
+chmod 400 cozycorner.pem
+ssh -i "cozycorner.pem" ubuntu@3.129.45.79
+
+## 2. Install Docker on EC2
