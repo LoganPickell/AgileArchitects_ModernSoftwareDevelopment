@@ -123,13 +123,13 @@ sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin dock
 git clone <link to repo> <where you want it>
 
 ``` bash
-git clone https://github.com/LoganPickell/AgileArchitects_ModernSoftwareDevelopment.git /tmp/deploy-repo
+git clone https://github.com/LoganPickell/AgileArchitects_ModernSoftwareDevelopment.git/tmp/deploy-repo
 ```
 ## 4. Build Docker Image
 Change directory into app folder, then build the image (MUST HAVE 
 DOCKERFILE TO BUILD!)
 
-https://github.com/LoganPickell/ AgileArchitects_ModernSoftwareDevelopment/blob/main/Dockerfile
+https://github.com/LoganPickell/AgileArchitects_ModernSoftwareDevelopment/blob/main/Dockerfile
 
 ```bash
 cd /tmp/deploy-repo
