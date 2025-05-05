@@ -83,6 +83,10 @@ python app.py
 ![edit book page](screenshots/Editbook.jpeg)
 ![search book page](screenshots/searchbook.jpeg)
 
+
+
+
+
 # GitHub CD Pipeline with AWS EC2 and Docker
 
 ## 1. Launch & Access AWS EC2 Instance
