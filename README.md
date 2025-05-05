@@ -98,5 +98,61 @@ python app.py
 ```bash
 chmod 400 cozycorner.pem
 ssh -i "cozycorner.pem" ubuntu@3.129.45.79
-
+```
 ## 2. Install Docker on EC2
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+```
+
+## 3. Clone Repo to Server
+git clone <link to repo> <where you want it>
+
+``` bash
+git clone https://github.com/LoganPickell/AgileArchitects_ModernSoftwareDevelopment.git /tmp/deploy-repo
+```
+## 4. Build Docker Image
+Change directory into app folder, then build the image (MUST HAVE 
+DOCKERFILE TO BUILD!)
+
+https://github.com/LoganPickell/ AgileArchitects_ModernSoftwareDevelopment/blob/main/Dockerfile
+
+```bash
+cd /tmp/deploy-repo
+sudo docker build -t cozycorner .
+```
+in this case our IMAGE name is cozycorner, you will need that name to run 
+the container
+
+## 5. Run Docker Image
+```bash
+sudo docker run -d --name myapp-container -p 80:5000 cozycorner
+```
+-d runs in detached mode, we specified we want it to be named myapp-
+container, port mapping 80:5000 and we want to build the cozycorner 
+image.
+
+# Automate Deployment
+## 1. Github Actions Workflow
+Create .github/workflows/.yml file
+https://github.com/LoganPickell/AgileArchitects_ModernSoftwareDevelopment/blob/main/.github/workflows/ci.yml
+
+## 2. Add Secrets to GitHub
+In GitHub repo settings → Secrets and variables → Actions:
+- Add `SERVER_SSH_KEY` and paste the contents of your `.pem` file
+- Add `SERVER_USER` and paste the user name – in our case it is ‘ubuntu’
+- Add ‘SERVER_IP’ and paste the IP address to the server in. (3.129.45.79)
+
+
+
+
