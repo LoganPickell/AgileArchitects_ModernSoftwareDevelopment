@@ -1,6 +1,8 @@
 import re
 import requests
 from flask import render_template, request, redirect, url_for, flash, session
+from sqlalchemy import func
+
 from .models import User, Book, BookShelf
 from . import db
 
@@ -45,12 +47,16 @@ def register_routes(app):
         if existing_user:
             raise ValueError("Username already exists")
 
+        lowercase_user = User.query.filter(func.lower(User.username) == username.lower()).first()
+        if lowercase_user:
+            raise ValueError("Username already exists")
+
         return username
 
     @app.route('/create_account', methods=['GET', 'POST'])
     def create_account():
         if request.method == 'POST':
-            username = request.form['username'].lower()
+            username = request.form['username']
 
             if not username:
                 flash("Username cannot be empty", "error")
