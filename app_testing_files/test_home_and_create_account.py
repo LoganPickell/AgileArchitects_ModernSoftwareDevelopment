@@ -152,6 +152,7 @@ def test_create_account_duplicate_username(test_client):
     assert response.status_code == 400
     assert b"Username already exists" in response.data
 
+
 def test_create_account_duplicate_username_case_sensitive(test_client):
     test_client.post('/create_account', data={'username': 'ExistingUser2'})
     response = test_client.post('/create_account', data={'username': 'existinguser2'})
